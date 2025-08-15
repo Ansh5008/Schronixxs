@@ -43,7 +43,7 @@ export default function Dashboard() {
   const totalSkips = subjects?.reduce((acc: number, subject: any) => acc + subject.canSkip, 0) || 0;
 
   return (
-    <div className="min-h-screen bg-schronix-grey-50" data-testid="dashboard-page">
+    <div className="min-h-screen bg-schronix-primary" data-testid="dashboard-page">
       
       {/* Navigation Bar */}
       <nav className="bg-white border-b border-schronix-grey-200 px-6 py-4" data-testid="nav-dashboard">
@@ -89,14 +89,14 @@ export default function Dashboard() {
 
       <div className="flex">
         {/* Sidebar */}
-        <div className="w-64 bg-white border-r border-schronix-grey-200 min-h-screen p-6" data-testid="sidebar-dashboard">
+        <div className="w-64 bg-schronix-primary border-r border-schronix-secondary/20 min-h-screen p-6" data-testid="sidebar-dashboard">
           <nav className="space-y-2">
             <button 
               onClick={() => setSelectedTab("dashboard")}
               className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-colors ${
                 selectedTab === "dashboard" 
-                  ? "bg-schronix-primary text-white" 
-                  : "text-schronix-grey-600 hover:bg-schronix-grey-100"
+                  ? "bg-white text-schronix-primary" 
+                  : "text-white hover:bg-schronix-secondary/20"
               }`}
               data-testid="button-nav-dashboard"
             >
@@ -107,8 +107,8 @@ export default function Dashboard() {
               onClick={() => setSelectedTab("schedule")}
               className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-colors ${
                 selectedTab === "schedule" 
-                  ? "bg-schronix-primary text-white" 
-                  : "text-schronix-grey-600 hover:bg-schronix-grey-100"
+                  ? "bg-white text-schronix-primary" 
+                  : "text-white hover:bg-schronix-secondary/20"
               }`}
               data-testid="button-nav-schedule"
             >
@@ -119,8 +119,8 @@ export default function Dashboard() {
               onClick={() => setSelectedTab("subjects")}
               className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-colors ${
                 selectedTab === "subjects" 
-                  ? "bg-schronix-primary text-white" 
-                  : "text-schronix-grey-600 hover:bg-schronix-grey-100"
+                  ? "bg-white text-schronix-primary" 
+                  : "text-white hover:bg-schronix-secondary/20"
               }`}
               data-testid="button-nav-subjects"
             >
@@ -131,8 +131,8 @@ export default function Dashboard() {
               onClick={() => setSelectedTab("analytics")}
               className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-colors ${
                 selectedTab === "analytics" 
-                  ? "bg-schronix-primary text-white" 
-                  : "text-schronix-grey-600 hover:bg-schronix-grey-100"
+                  ? "bg-white text-schronix-primary" 
+                  : "text-white hover:bg-schronix-secondary/20"
               }`}
               data-testid="button-nav-analytics"
             >
@@ -143,8 +143,8 @@ export default function Dashboard() {
               onClick={() => setSelectedTab("upload")}
               className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-colors ${
                 selectedTab === "upload" 
-                  ? "bg-schronix-primary text-white" 
-                  : "text-schronix-grey-600 hover:bg-schronix-grey-100"
+                  ? "bg-white text-schronix-primary" 
+                  : "text-white hover:bg-schronix-secondary/20"
               }`}
               data-testid="button-nav-upload"
             >
@@ -155,8 +155,8 @@ export default function Dashboard() {
               onClick={() => setSelectedTab("settings")}
               className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-colors ${
                 selectedTab === "settings" 
-                  ? "bg-schronix-primary text-white" 
-                  : "text-schronix-grey-600 hover:bg-schronix-grey-100"
+                  ? "bg-white text-schronix-primary" 
+                  : "text-white hover:bg-schronix-secondary/20"
               }`}
               data-testid="button-nav-settings"
             >
@@ -166,7 +166,7 @@ export default function Dashboard() {
           </nav>
           
           <div className="mt-auto pt-8">
-            <button className="flex items-center space-x-3 text-schronix-grey-600 hover:text-schronix-warning px-4 py-3 w-full" data-testid="button-logout">
+            <button className="flex items-center space-x-3 text-white/70 hover:text-white px-4 py-3 w-full transition-colors" data-testid="button-logout">
               <LogOut className="h-4 w-4" />
               <span>Log Out</span>
             </button>
@@ -174,7 +174,7 @@ export default function Dashboard() {
         </div>
         
         {/* Main Content */}
-        <div className="flex-1 p-6">
+        <div className="flex-1 p-6 bg-white min-h-screen">
           <div className="max-w-7xl mx-auto">
             
             {selectedTab === "dashboard" && (

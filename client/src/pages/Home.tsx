@@ -46,7 +46,7 @@ export default function Home() {
         }`}
         data-testid="hero-slide"
       >
-        <div className="min-h-screen bg-gradient-to-br from-schronix-primary to-schronix-secondary relative overflow-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-schronix-grey-300 to-schronix-grey-400 relative overflow-hidden">
           <FlowingLines />
           
           <div className="relative z-10 container mx-auto px-6 py-20">
@@ -60,10 +60,10 @@ export default function Home() {
               
               {/* Tagline */}
               <div className="mb-12">
-                <h2 className="text-2xl md:text-4xl font-light text-white/90 mb-6" data-testid="text-tagline">
-                  Plan Smarter, Skip Smarter
+                <h2 className="text-2xl md:text-4xl font-light text-white/95 mb-6" data-testid="text-tagline">
+                  Plan Smarter Skip Smarter
                 </h2>
-                <p className="text-lg md:text-xl text-white/80 max-w-2xl" data-testid="text-description">
+                <p className="text-lg md:text-xl text-white/85 max-w-2xl" data-testid="text-description">
                   Intelligent attendance tracking and academic planning for students who value strategic learning
                 </p>
               </div>
@@ -71,7 +71,7 @@ export default function Home() {
               {/* CTA Button */}
               <Button 
                 onClick={nextSlide}
-                className="bg-white text-schronix-primary px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="bg-white text-schronix-grey-800 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-schronix-grey-100 transition-all duration-300 shadow-lg hover:shadow-xl"
                 data-testid="button-get-started"
               >
                 Get Started
@@ -80,8 +80,8 @@ export default function Home() {
               
               {/* Scroll Indicator */}
               <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-                <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-                  <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-bounce"></div>
+                <div className="w-6 h-10 border-2 border-white/60 rounded-full flex justify-center">
+                  <div className="w-1 h-3 bg-white/80 rounded-full mt-2 animate-bounce"></div>
                 </div>
               </div>
             </div>
@@ -119,7 +119,7 @@ export default function Home() {
         }`}
         data-testid="dashboard-preview-slide"
       >
-        <div className="min-h-screen bg-schronix-grey-50 flex flex-col items-center justify-center">
+        <div className="min-h-screen bg-white flex flex-col items-center justify-center">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-schronix-grey-800 mb-6" data-testid="text-dashboard-preview-title">
               Experience the Dashboard

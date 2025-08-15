@@ -41,21 +41,21 @@
   --font-mono: Menlo, monospace;
   --radius: 1.3rem;
 
-  /* Schronix Brand Colors */
-  --schronix-primary: hsl(233 47% 58%);
-  --schronix-secondary: hsl(242 100% 69%);
-  --schronix-accent: hsl(159 100% 36%);
-  --schronix-warning: hsl(0 84% 60%);
-  --schronix-grey-50: hsl(210 40% 98%);
-  --schronix-grey-100: hsl(210 40% 96%);
-  --schronix-grey-200: hsl(214 32% 91%);
-  --schronix-grey-300: hsl(213 27% 84%);
-  --schronix-grey-400: hsl(215 20% 65%);
-  --schronix-grey-500: hsl(215 16% 47%);
-  --schronix-grey-600: hsl(215 19% 35%);
-  --schronix-grey-700: hsl(215 25% 27%);
-  --schronix-grey-800: hsl(217 33% 17%);
-  --schronix-grey-900: hsl(222 84% 5%);
+  /* Schronix Brand Colors - Updated to match design */
+  --schronix-primary: hsl(222 84% 63%);
+  --schronix-secondary: hsl(222 84% 55%);
+  --schronix-accent: hsl(160 84% 39%);
+  --schronix-warning: hsl(25 95% 53%);
+  --schronix-grey-50: hsl(0 0% 98%);
+  --schronix-grey-100: hsl(0 0% 96%);
+  --schronix-grey-200: hsl(0 0% 89%);
+  --schronix-grey-300: hsl(0 0% 83%);
+  --schronix-grey-400: hsl(0 0% 64%);
+  --schronix-grey-500: hsl(0 0% 45%);
+  --schronix-grey-600: hsl(0 0% 32%);
+  --schronix-grey-700: hsl(0 0% 25%);
+  --schronix-grey-800: hsl(0 0% 15%);
+  --schronix-grey-900: hsl(0 0% 9%);
 
   --shadow-2xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00);
   --shadow-xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00);
