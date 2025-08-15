@@ -53,17 +53,17 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center min-h-screen text-center">
               {/* Logo */}
               <div className="mb-8 animate-float">
-                <h1 className="text-6xl md:text-8xl font-bold text-white mb-4" data-testid="text-schronix-title">
+                <h1 className="text-6xl md:text-8xl font-bold text-white mb-4 animate-fade-in-up" data-testid="text-schronix-title">
                   Schronix
                 </h1>
               </div>
               
               {/* Tagline */}
               <div className="mb-12">
-                <h2 className="text-2xl md:text-4xl font-light text-white/95 mb-6" data-testid="text-tagline">
+                <h2 className="text-2xl md:text-4xl font-light text-white/95 mb-6 animate-slide-up" style={{ animationDelay: '0.3s' }} data-testid="text-tagline">
                   Plan Smarter Skip Smarter
                 </h2>
-                <p className="text-lg md:text-xl text-white/85 max-w-2xl" data-testid="text-description">
+                <p className="text-lg md:text-xl text-white/85 max-w-2xl animate-fade-in-up" style={{ animationDelay: '0.6s' }} data-testid="text-description">
                   Intelligent attendance tracking and academic planning for students who value strategic learning
                 </p>
               </div>
@@ -71,7 +71,8 @@ export default function Home() {
               {/* CTA Button */}
               <Button 
                 onClick={nextSlide}
-                className="bg-white text-schronix-grey-800 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-schronix-grey-100 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="bg-white text-schronix-grey-800 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-schronix-grey-100 transition-all duration-300 shadow-lg hover:shadow-xl animate-bounce-in animate-ripple"
+                style={{ animationDelay: '0.8s' }}
                 data-testid="button-get-started"
               >
                 Get Started
@@ -102,7 +103,8 @@ export default function Home() {
           <div className="text-center mt-16 pb-20">
             <Button 
               onClick={nextSlide}
-              className="bg-schronix-primary text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-schronix-secondary transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="bg-schronix-primary text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-schronix-secondary transition-all duration-300 shadow-lg hover:shadow-xl animate-pulse-glow animate-scale-in"
+              style={{ animationDelay: '0.5s' }}
               data-testid="button-view-dashboard"
             >
               View Dashboard

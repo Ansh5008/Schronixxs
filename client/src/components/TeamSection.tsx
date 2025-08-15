@@ -7,23 +7,35 @@ interface TeamSectionProps {
 }
 
 export default function TeamSection({ isActive }: TeamSectionProps) {
-  const [animatedMembers, setAnimatedMembers] = useState<Set<number>>(new Set());
+  const [animatedMembers, setAnimatedMembers] = useState<number[]>([]);
+  const [headerAnimated, setHeaderAnimated] = useState(false);
+  const [particlesVisible, setParticlesVisible] = useState(false);
 
   useEffect(() => {
     if (isActive) {
+      // Animate header first
+      setTimeout(() => setHeaderAnimated(true), 100);
+      
+      // Show particles
+      setTimeout(() => setParticlesVisible(true), 300);
+      
       // Animate team members sequentially
       const timeouts: NodeJS.Timeout[] = [];
       
       [0, 1, 2, 3].forEach((index) => {
         const timeout = setTimeout(() => {
-          setAnimatedMembers(prev => new Set([...prev, index]));
-        }, 300 + index * 200);
+          setAnimatedMembers(prev => [...prev, index]);
+        }, 500 + index * 300);
         timeouts.push(timeout);
       });
 
-      return () => timeouts.forEach(clearTimeout);
+      return () => {
+        timeouts.forEach(clearTimeout);
+      };
     } else {
-      setAnimatedMembers(new Set());
+      setAnimatedMembers([]);
+      setHeaderAnimated(false);
+      setParticlesVisible(false);
     }
   }, [isActive]);
 
@@ -67,23 +79,44 @@ export default function TeamSection({ isActive }: TeamSectionProps) {
   ];
 
   return (
-    <div className="container mx-auto px-6 py-20">
-      {/* Background Pattern */}
+    <div className="container mx-auto px-6 py-20 relative overflow-hidden">
+      {/* Animated Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <svg className="absolute top-0 left-0 w-full h-full" viewBox="0 0 800 600" fill="none">
-          <circle cx="100" cy="100" r="50" fill="#4F46E5"/>
-          <circle cx="700" cy="500" r="80" fill="#6366F1"/>
-          <circle cx="600" cy="150" r="30" fill="#4F46E5"/>
+          <circle cx="100" cy="100" r="50" fill="#4F46E5" className="animate-pulse" style={{ animationDelay: '0s' }}/>
+          <circle cx="700" cy="500" r="80" fill="#6366F1" className="animate-pulse" style={{ animationDelay: '1s' }}/>
+          <circle cx="600" cy="150" r="30" fill="#4F46E5" className="animate-pulse" style={{ animationDelay: '2s' }}/>
+          <circle cx="200" cy="400" r="40" fill="#6366F1" className="animate-pulse" style={{ animationDelay: '0.5s' }}/>
+          <circle cx="500" cy="300" r="25" fill="#4F46E5" className="animate-pulse" style={{ animationDelay: '1.5s' }}/>
         </svg>
       </div>
 
+      {/* Floating Particles */}
+      {particlesVisible && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {Array.from({ length: 8 }, (_, i) => (
+            <div
+              key={i}
+              className="absolute w-2 h-2 bg-schronix-primary/20 rounded-full animate-particle"
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${i * 0.5}s`,
+                animationDuration: `${4 + Math.random() * 2}s`
+              }}
+            />
+          ))}
+        </div>
+      )}
+
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-schronix-grey-800 mb-6" data-testid="text-team-header">
+        <div className={`text-center mb-16 transition-all duration-1000 ${
+          headerAnimated ? 'animate-slide-down' : 'opacity-0 -translate-y-10'
+        }`}>
+          <h2 className="text-4xl md:text-5xl font-bold text-schronix-grey-800 mb-6 animate-gradient-x bg-gradient-to-r from-schronix-primary via-schronix-secondary to-schronix-accent bg-clip-text text-transparent" data-testid="text-team-header">
             Meet Our Team
           </h2>
-          <p className="text-xl text-schronix-grey-600 max-w-2xl mx-auto" data-testid="text-team-description">
+          <p className="text-xl text-schronix-grey-600 max-w-2xl mx-auto animate-fade-in-up" data-testid="text-team-description" style={{ animationDelay: '0.3s' }}>
             The brilliant minds behind Schronix, dedicated to revolutionizing student academic planning
           </p>
         </div>
@@ -96,8 +129,8 @@ export default function TeamSection({ isActive }: TeamSectionProps) {
           <div className="flex justify-center">
             <div 
               className={`transition-all duration-600 ease-out ${
-                animatedMembers.has(0) 
-                  ? 'opacity-100 translate-y-0' 
+                animatedMembers.includes(0) 
+                  ? 'opacity-100 translate-y-0 animate-bounce-in' 
                   : 'opacity-0 translate-y-5'
               }`}
             >
@@ -147,8 +180,8 @@ export default function TeamSection({ isActive }: TeamSectionProps) {
                 <div 
                   key={memberIndex}
                   className={`transition-all duration-600 ease-out ${
-                    animatedMembers.has(memberIndex) 
-                      ? 'opacity-100 translate-y-0' 
+                    animatedMembers.includes(memberIndex) 
+                      ? 'opacity-100 translate-y-0 animate-scale-in' 
                       : 'opacity-0 translate-y-5'
                   }`}
                   data-testid={`card-team-member-${index}`}

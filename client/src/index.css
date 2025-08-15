@@ -131,6 +131,57 @@
     animation: float 6s ease-in-out infinite;
   }
 
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.8s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 1s ease-out forwards;
+  }
+
+  .animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  .animate-bounce-in {
+    animation: bounceIn 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  }
+
+  .animate-gradient-x {
+    animation: gradientX 3s ease infinite;
+    background-size: 400% 400%;
+  }
+
+  .animate-typing {
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid rgba(255, 255, 255, 0.75);
+  }
+
+  .animate-card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .animate-card-hover:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .animate-stagger-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: staggerFadeIn 0.8s ease-out forwards;
+  }
+
   @keyframes float {
     0%, 100% { 
       transform: translateY(0px); 
@@ -138,5 +189,146 @@
     50% { 
       transform: translateY(-10px); 
     }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(100px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-100px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.5) rotate(-10deg);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(34, 197, 94, 0.6);
+    }
+  }
+
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.3) translateY(-50px);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05) translateY(-10px);
+    }
+    70% {
+      transform: scale(0.9) translateY(0px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0px);
+    }
+  }
+
+  @keyframes gradientX {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  @keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: rgba(255, 255, 255, 0.75); }
+  }
+
+  @keyframes staggerFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Particle animation */
+  .animate-particle {
+    animation: particle 4s linear infinite;
+  }
+
+  @keyframes particle {
+    0% {
+      transform: translateY(100vh) translateX(0px) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-10vh) translateX(100px) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  /* Ripple effect */
+  .animate-ripple {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .animate-ripple::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .animate-ripple:hover::before {
+    width: 300px;
+    height: 300px;
   }
 }

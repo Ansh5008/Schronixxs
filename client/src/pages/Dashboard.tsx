@@ -93,9 +93,9 @@ export default function Dashboard() {
           <nav className="space-y-2">
             <button 
               onClick={() => setSelectedTab("dashboard")}
-              className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-colors ${
+              className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-all duration-300 hover:scale-105 animate-ripple ${
                 selectedTab === "dashboard" 
-                  ? "bg-white text-schronix-primary" 
+                  ? "bg-white text-schronix-primary animate-card-hover" 
                   : "text-white hover:bg-schronix-secondary/20"
               }`}
               data-testid="button-nav-dashboard"
@@ -105,9 +105,9 @@ export default function Dashboard() {
             </button>
             <button 
               onClick={() => setSelectedTab("schedule")}
-              className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-colors ${
+              className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-all duration-300 hover:scale-105 animate-ripple ${
                 selectedTab === "schedule" 
-                  ? "bg-white text-schronix-primary" 
+                  ? "bg-white text-schronix-primary animate-card-hover" 
                   : "text-white hover:bg-schronix-secondary/20"
               }`}
               data-testid="button-nav-schedule"
@@ -117,9 +117,9 @@ export default function Dashboard() {
             </button>
             <button 
               onClick={() => setSelectedTab("subjects")}
-              className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-colors ${
+              className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-all duration-300 hover:scale-105 animate-ripple ${
                 selectedTab === "subjects" 
-                  ? "bg-white text-schronix-primary" 
+                  ? "bg-white text-schronix-primary animate-card-hover" 
                   : "text-white hover:bg-schronix-secondary/20"
               }`}
               data-testid="button-nav-subjects"
@@ -129,9 +129,9 @@ export default function Dashboard() {
             </button>
             <button 
               onClick={() => setSelectedTab("analytics")}
-              className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-colors ${
+              className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-all duration-300 hover:scale-105 animate-ripple ${
                 selectedTab === "analytics" 
-                  ? "bg-white text-schronix-primary" 
+                  ? "bg-white text-schronix-primary animate-card-hover" 
                   : "text-white hover:bg-schronix-secondary/20"
               }`}
               data-testid="button-nav-analytics"
@@ -141,9 +141,9 @@ export default function Dashboard() {
             </button>
             <button 
               onClick={() => setSelectedTab("upload")}
-              className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-colors ${
+              className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-all duration-300 hover:scale-105 animate-ripple ${
                 selectedTab === "upload" 
-                  ? "bg-white text-schronix-primary" 
+                  ? "bg-white text-schronix-primary animate-card-hover" 
                   : "text-white hover:bg-schronix-secondary/20"
               }`}
               data-testid="button-nav-upload"
@@ -153,9 +153,9 @@ export default function Dashboard() {
             </button>
             <button 
               onClick={() => setSelectedTab("settings")}
-              className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-colors ${
+              className={`flex items-center space-x-3 w-full px-4 py-3 rounded-lg text-left transition-all duration-300 hover:scale-105 animate-ripple ${
                 selectedTab === "settings" 
-                  ? "bg-white text-schronix-primary" 
+                  ? "bg-white text-schronix-primary animate-card-hover" 
                   : "text-white hover:bg-schronix-secondary/20"
               }`}
               data-testid="button-nav-settings"
@@ -183,7 +183,7 @@ export default function Dashboard() {
                 <div className="mb-8">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h1 className="text-3xl font-bold text-schronix-grey-800 mb-2" data-testid="text-greeting">Hello John!</h1>
+                      <h1 className="text-3xl font-bold text-schronix-grey-800 mb-2 animate-slide-up" data-testid="text-greeting">Hello John!</h1>
                       <p className="text-schronix-grey-600" data-testid="text-greeting-message">
                         You have {upcomingEvents?.length || 0} upcoming events. Let's manage your attendance strategically!
                       </p>
@@ -199,7 +199,7 @@ export default function Dashboard() {
                 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                  <Card className="hover:shadow-lg transition-shadow" data-testid="card-overall-attendance">
+                  <Card className="hover:shadow-lg transition-all duration-300 animate-card-hover animate-stagger-fade-in" style={{ animationDelay: '0.1s' }} data-testid="card-overall-attendance">
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
                         <div className="text-sm text-schronix-grey-600">Overall Attendance</div>
@@ -214,7 +214,7 @@ export default function Dashboard() {
                     </CardContent>
                   </Card>
                   
-                  <Card className="hover:shadow-lg transition-shadow" data-testid="card-classes-attended">
+                  <Card className="hover:shadow-lg transition-all duration-300 animate-card-hover animate-stagger-fade-in" style={{ animationDelay: '0.2s' }} data-testid="card-classes-attended">
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
                         <div className="text-sm text-schronix-grey-600">Classes Attended</div>
@@ -229,7 +229,7 @@ export default function Dashboard() {
                     </CardContent>
                   </Card>
                   
-                  <Card className="hover:shadow-lg transition-shadow" data-testid="card-available-skips">
+                  <Card className="hover:shadow-lg transition-all duration-300 animate-card-hover animate-stagger-fade-in" style={{ animationDelay: '0.3s' }} data-testid="card-available-skips">
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
                         <div className="text-sm text-schronix-grey-600">Available Skips</div>
@@ -244,7 +244,7 @@ export default function Dashboard() {
                     </CardContent>
                   </Card>
                   
-                  <Card className="hover:shadow-lg transition-shadow" data-testid="card-next-class">
+                  <Card className="hover:shadow-lg transition-all duration-300 animate-card-hover animate-stagger-fade-in" style={{ animationDelay: '0.4s' }} data-testid="card-next-class">
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
                         <div className="text-sm text-schronix-grey-600">Next Class</div>
@@ -297,8 +297,8 @@ export default function Dashboard() {
             )}
 
             {selectedTab === "upload" && (
-              <div>
-                <h2 className="text-2xl font-bold text-schronix-grey-800 mb-6" data-testid="text-upload-title">Upload Academic Documents</h2>
+              <div className="relative">
+                <h2 className="text-2xl font-bold text-schronix-grey-800 mb-6 animate-fade-in-up" data-testid="text-upload-title">Upload Academic Documents</h2>
                 <div className="grid md:grid-cols-2 gap-6">
                   <UploadZone 
                     type="calendar"
