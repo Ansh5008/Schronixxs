@@ -4,76 +4,68 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, Upload, ChevronDown } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
-// Modern minimalistic flowing lines exactly matching the provided design
+// Exact flowing lines pattern matching the provided image
 function FlowingLines() {
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* 2030 text in top-right corner */}
-      <div className="absolute top-8 right-8 text-white text-sm font-light opacity-30 z-20">
+      {/* 2030 text in top-right corner - subtle white */}
+      <div className="absolute top-8 right-8 text-black text-sm font-light opacity-20 z-20">
         2030
       </div>
       
       <svg
-        className="absolute inset-0 w-full h-full"
+        className="absolute bottom-0 right-0 w-full h-full"
         viewBox="0 0 1920 1080"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid slice"
+        preserveAspectRatio="xMaxYMax slice"
       >
-        {/* Create evenly spaced parallel wave-like contours from bottom-left rising to right */}
-        {Array.from({ length: 25 }, (_, i) => {
-          const spacing = i * 12; // Even spacing between lines
-          const startY = 1080 - (i * 8); // Start from bottom, gradually moving up
-          const controlY1 = 1080 - (i * 15) - 200; // First control point
-          const controlY2 = 1080 - (i * 20) - 400; // Second control point
-          const endY = 1080 - (i * 25) - 600; // End point higher up
-          
+        {/* Bottom flowing curves - exactly like the image */}
+        {Array.from({ length: 15 }, (_, i) => {
+          const yOffset = i * 8;
           return (
             <path
-              key={i}
-              d={`M 0 ${startY} 
-                  Q 480 ${controlY1} 960 ${controlY2} 
-                  T 1920 ${endY}`}
-              stroke="rgba(0, 0, 0, 0.8)"
-              strokeWidth="1.2"
+              key={`bottom-${i}`}
+              d={`M 0 ${1080 - yOffset} 
+                  C 200 ${1050 - yOffset} 400 ${1020 - yOffset} 600 ${1000 - yOffset}
+                  C 800 ${980 - yOffset} 1000 ${970 - yOffset} 1200 ${960 - yOffset}
+                  C 1400 ${950 - yOffset} 1600 ${940 - yOffset} 1920 ${930 - yOffset}`}
+              stroke="rgba(0, 0, 0, 0.7)"
+              strokeWidth="1.5"
               fill="none"
-              className="animate-draw"
-              style={{ 
-                strokeDasharray: 3000,
-                strokeDashoffset: 3000,
-                animationDelay: `${i * 0.1}s`,
-                animationDuration: '4s',
-                animationFillMode: 'forwards'
-              }}
             />
           );
         })}
         
-        {/* Additional finer lines for depth and detail */}
-        {Array.from({ length: 20 }, (_, i) => {
-          const spacing = i * 15 + 6; // Offset pattern
-          const startY = 1080 - (i * 10) - 10;
-          const controlY1 = 1080 - (i * 18) - 180;
-          const controlY2 = 1080 - (i * 22) - 380;
-          const endY = 1080 - (i * 28) - 580;
-          
+        {/* Right side rising curves - exactly like the image */}
+        {Array.from({ length: 25 }, (_, i) => {
+          const spacing = i * 6;
+          const curvature = 200 + i * 8;
           return (
             <path
-              key={`fine-${i}`}
-              d={`M 0 ${startY} 
-                  Q 500 ${controlY1} 1000 ${controlY2} 
-                  T 1920 ${endY}`}
-              stroke="rgba(0, 0, 0, 0.4)"
-              strokeWidth="0.8"
+              key={`right-${i}`}
+              d={`M ${1920 - spacing} 1080
+                  C ${1800 - spacing} ${900 - i * 12} ${1700 - spacing} ${700 - i * 15} ${1600 - spacing} ${500 - i * 18}
+                  C ${1500 - spacing} ${300 - i * 20} ${1400 - spacing} ${200 - i * 22} ${1300 - spacing} ${100 - i * 24}`}
+              stroke="rgba(0, 0, 0, 0.6)"
+              strokeWidth="1.2"
               fill="none"
-              className="animate-draw"
-              style={{ 
-                strokeDasharray: 2500,
-                strokeDashoffset: 2500,
-                animationDelay: `${i * 0.12}s`,
-                animationDuration: '5s',
-                animationFillMode: 'forwards'
-              }}
+            />
+          );
+        })}
+        
+        {/* Additional curved lines for the exact pattern */}
+        {Array.from({ length: 20 }, (_, i) => {
+          const offset = i * 10;
+          return (
+            <path
+              key={`curve-${i}`}
+              d={`M ${800 + offset} 1080
+                  Q ${1000 + offset} ${800 - i * 10} ${1200 + offset} ${600 - i * 12}
+                  Q ${1400 + offset} ${400 - i * 14} ${1600 + offset} ${200 - i * 16}`}
+              stroke="rgba(0, 0, 0, 0.5)"
+              strokeWidth="1"
+              fill="none"
             />
           );
         })}
@@ -126,7 +118,7 @@ export default function Home() {
       {/* Section 1: Minimal Hero - Exact match to design */}
       <div 
         ref={el => sectionsRef.current[0] = el}
-        className="min-h-screen bg-gradient-to-r from-gray-300 to-white relative overflow-hidden flex items-center justify-center"
+        className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
         data-testid="hero-section"
       >
         <FlowingLines />
@@ -150,7 +142,7 @@ export default function Home() {
       {/* Section 2: Schronix Title */}
       <div 
         ref={el => sectionsRef.current[1] = el}
-        className="min-h-screen bg-gradient-to-r from-gray-300 to-white relative overflow-hidden flex items-center justify-center"
+        className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
         data-testid="schronix-section"
       >
         <FlowingLines />
@@ -189,7 +181,7 @@ export default function Home() {
       {/* Section 3: Team */}
       <div 
         ref={el => sectionsRef.current[2] = el}
-        className="min-h-screen bg-gradient-to-r from-gray-300 to-white relative overflow-hidden flex items-center justify-center"
+        className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
         data-testid="team-section"
       >
         <FlowingLines />
@@ -251,7 +243,7 @@ export default function Home() {
       </div>
 
       {/* Section 4: Upload */}
-      <div className="min-h-screen bg-gradient-to-r from-gray-300 to-white relative overflow-hidden flex items-center justify-center" data-testid="upload-section">
+      <div className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center" data-testid="upload-section">
         <FlowingLines />
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
