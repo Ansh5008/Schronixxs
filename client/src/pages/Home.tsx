@@ -185,17 +185,32 @@ export default function Home() {
       >
         <FlowingLines sectionIndex={0} />
         
-        {/* Welcome content with clear scroll indicator */}
+        {/* Navigation Bar */}
+        <nav className="relative z-20 w-full px-6 py-4">
+          <div className="flex justify-between items-center max-w-6xl mx-auto">
+            <div className="text-2xl font-bold text-gray-800">
+              Schronix
+            </div>
+            <div className="hidden md:flex space-x-8">
+              <button onClick={() => scrollToSection(1)} className="text-gray-700 hover:text-gray-900 transition-colors">
+                About
+              </button>
+              <button onClick={() => scrollToSection(3)} className="text-gray-700 hover:text-gray-900 transition-colors">
+                How it Works
+              </button>
+              <button onClick={() => scrollToSection(4)} className="text-gray-700 hover:text-gray-900 transition-colors">
+                Team
+              </button>
+              <button onClick={() => scrollToSection(5)} className="text-gray-700 hover:text-gray-900 transition-colors">
+                Get Started
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        {/* Main content with clear scroll indicator */}
         <div className="relative z-10 w-full h-full flex items-center justify-center">
           <div className="text-center">
-            {/* Welcome message */}
-            <h1 className="text-6xl md:text-8xl font-light text-gray-800 mb-4 opacity-80">
-              Welcome
-            </h1>
-            <p className="text-xl text-gray-700 mb-8 opacity-70">
-              Scroll down to explore
-            </p>
-            
             {/* Clear scroll indicator */}
             <div 
               className="flex flex-col items-center cursor-pointer"
@@ -339,7 +354,7 @@ export default function Home() {
               {/* Step 1 - Left branch */}
               <div className="flex items-center mb-12 relative">
                 <div className="flex-1 pr-8">
-                  <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg p-6 text-right transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+                  <Card className="bg-gray-100/90 backdrop-blur-sm border-0 shadow-lg p-6 text-right transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
                     <div className="flex items-center justify-end mb-3">
                       <h3 className="text-xl font-semibold text-gray-800 mr-3">Upload Documents</h3>
                       <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
@@ -360,7 +375,7 @@ export default function Home() {
                 {/* Branch line */}
                 <div className="w-16 h-1 bg-gray-800 opacity-30"></div>
                 <div className="flex-1 pl-8">
-                  <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg p-6 text-left transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+                  <Card className="bg-gray-100/90 backdrop-blur-sm border-0 shadow-lg p-6 text-left transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
                     <div className="flex items-center mb-3">
                       <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-3">
                         <span className="text-white font-bold">2</span>
@@ -375,7 +390,7 @@ export default function Home() {
               {/* Step 3 - Left branch */}
               <div className="flex items-center mb-12 relative">
                 <div className="flex-1 pr-8">
-                  <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg p-6 text-right transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+                  <Card className="bg-gray-100/90 backdrop-blur-sm border-0 shadow-lg p-6 text-right transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
                     <div className="flex items-center justify-end mb-3">
                       <h3 className="text-xl font-semibold text-gray-800 mr-3">Track Attendance</h3>
                       <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center">
@@ -396,7 +411,7 @@ export default function Home() {
                 {/* Branch line */}
                 <div className="w-16 h-1 bg-gray-800 opacity-30"></div>
                 <div className="flex-1 pl-8">
-                  <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg p-6 text-left transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+                  <Card className="bg-gray-100/90 backdrop-blur-sm border-0 shadow-lg p-6 text-left transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
                     <div className="flex items-center mb-3">
                       <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center mr-3">
                         <span className="text-white font-bold">4</span>
