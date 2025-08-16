@@ -120,7 +120,7 @@ function FlowingLines({ sectionIndex = 0 }) {
 
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
-  const [isVisible, setIsVisible] = useState([true, false, false, false, false, false]);
+  const [isVisible, setIsVisible] = useState([true, false, false, false, false]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -139,22 +139,19 @@ export default function Home() {
       
       if (scrollPosition < windowHeight * 0.8) {
         newSection = 0;
-        newVisibility = [true, false, false, false, false, false];
+        newVisibility = [true, false, false, false, false];
       } else if (scrollPosition < windowHeight * 1.8) {
         newSection = 1;
-        newVisibility = [false, true, false, false, false, false];
+        newVisibility = [false, true, false, false, false];
       } else if (scrollPosition < windowHeight * 2.8) {
         newSection = 2;
-        newVisibility = [false, false, true, false, false, false];
+        newVisibility = [false, false, true, false, false];
       } else if (scrollPosition < windowHeight * 3.8) {
         newSection = 3;
-        newVisibility = [false, false, false, true, false, false];
-      } else if (scrollPosition < windowHeight * 4.8) {
-        newSection = 4;
-        newVisibility = [false, false, false, false, true, false];
+        newVisibility = [false, false, false, true, false];
       } else {
-        newSection = 5;
-        newVisibility = [false, false, false, false, false, true];
+        newSection = 4;
+        newVisibility = [false, false, false, false, true];
       }
       
       if (newSection !== currentSection) {
@@ -171,7 +168,7 @@ export default function Home() {
     const element = sectionsRef.current[index];
     if (element) {
       // Update visibility state immediately when navigating
-      const newVisibility = [false, false, false, false, false, false];
+      const newVisibility = [false, false, false, false, false];
       newVisibility[index] = true;
       setIsVisible(newVisibility);
       setCurrentSection(index);
@@ -200,143 +197,117 @@ export default function Home() {
 
   return (
     <div className="relative" data-testid="home-page">
-      {/* Section 1: Minimal Hero - Exact match to design */}
-      <div 
-        ref={el => sectionsRef.current[0] = el}
-        className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center pt-16"
-        data-testid="hero-section"
-      >
-        <FlowingLines sectionIndex={0} />
-        
-        {/* Modern Navigation Bar */}
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              {/* Logo */}
-              <div className="flex-shrink-0">
-                <div className="text-2xl font-bold text-gray-800 hover:text-gray-600 transition-colors duration-300 cursor-pointer">
-                  Schronix
-                </div>
+      {/* Modern Navigation Bar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <div className="text-2xl font-bold text-gray-800 hover:text-gray-600 transition-colors duration-300 cursor-pointer">
+                Schronix
               </div>
-              
-              {/* Desktop Navigation */}
-              <div className="hidden md:block">
-                <div className="ml-10 flex items-baseline space-x-8">
-                  <button 
-                    onClick={() => scrollToSection(1)} 
-                    className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
-                  >
-                    About
-                  </button>
-                  <button 
-                    onClick={() => scrollToSection(3)} 
-                    className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
-                  >
-                    How it Works
-                  </button>
-                  <button 
-                    onClick={() => scrollToSection(4)} 
-                    className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
-                  >
-                    Team
-                  </button>
-                  <button 
-                    onClick={() => scrollToSection(5)} 
-                    className="bg-gray-800 text-white hover:bg-gray-700 px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg"
-                  >
-                    Get Started
-                  </button>
-                </div>
-              </div>
-              
-              {/* Mobile menu button */}
-              <div className="md:hidden">
-                <button
-                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="bg-gray-100 hover:bg-gray-200 inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-gray-900 transition-all duration-300 ease-in-out transform hover:scale-105"
-                  aria-expanded="false"
+            </div>
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-8">
+                <button 
+                  onClick={() => scrollToSection(1)} 
+                  className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
                 >
-                  <span className="sr-only">Open main menu</span>
-                  {isMobileMenuOpen ? (
-                    <X className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <Menu className="block h-6 w-6" aria-hidden="true" />
-                  )}
+                  About
+                </button>
+                <button 
+                  onClick={() => scrollToSection(2)} 
+                  className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                >
+                  How it Works
+                </button>
+                <button 
+                  onClick={() => scrollToSection(3)} 
+                  className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                >
+                  Team
+                </button>
+                <button 
+                  onClick={() => scrollToSection(4)} 
+                  className="bg-gray-800 text-white hover:bg-gray-700 px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg"
+                >
+                  Get Started
                 </button>
               </div>
             </div>
-          </div>
-          
-          {/* Mobile Navigation Menu */}
-          <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
-            isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
-          }`}>
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-white/98 backdrop-blur-md shadow-lg border-t border-gray-100">
+            
+            {/* Mobile menu button */}
+            <div className="md:hidden">
               <button
-                onClick={() => {
-                  scrollToSection(1);
-                  setIsMobileMenuOpen(false);
-                }}
-                className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="bg-gray-100 hover:bg-gray-200 inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-gray-900 transition-all duration-300 ease-in-out transform hover:scale-105"
+                aria-expanded="false"
               >
-                About
+                <span className="sr-only">Open main menu</span>
+                {isMobileMenuOpen ? (
+                  <X className="block h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <Menu className="block h-6 w-6" aria-hidden="true" />
+                )}
               </button>
-              <button
-                onClick={() => {
-                  scrollToSection(3);
-                  setIsMobileMenuOpen(false);
-                }}
-                className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300"
-              >
-                How it Works
-              </button>
-              <button
-                onClick={() => {
-                  scrollToSection(4);
-                  setIsMobileMenuOpen(false);
-                }}
-                className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300"
-              >
-                Team
-              </button>
-              <button
-                onClick={() => {
-                  scrollToSection(5);
-                  setIsMobileMenuOpen(false);
-                }}
-                className="bg-gray-800 text-white hover:bg-gray-700 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300 mt-2"
-              >
-                Get Started
-              </button>
-            </div>
-          </div>
-        </nav>
-
-        {/* Main content with clear scroll indicator */}
-        <div className="relative z-10 w-full h-full flex items-center justify-center">
-          <div className="text-center">
-            {/* Clear scroll indicator */}
-            <div 
-              className="flex flex-col items-center cursor-pointer"
-              onClick={() => scrollToSection(1)}
-              data-testid="click-to-continue"
-            >
-              <span className="text-sm text-gray-600 mb-2">Continue</span>
-              <div className="animate-bounce">
-                <ChevronDown className="h-8 w-8 text-gray-700" />
-              </div>
             </div>
           </div>
         </div>
-      </div>
+        
+        {/* Mobile Navigation Menu */}
+        <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+          isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+        }`}>
+          <div className="px-2 pt-2 pb-3 space-y-1 bg-white/98 backdrop-blur-md shadow-lg border-t border-gray-100">
+            <button
+              onClick={() => {
+                scrollToSection(1);
+                setIsMobileMenuOpen(false);
+              }}
+              className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300"
+            >
+              About
+            </button>
+            <button
+              onClick={() => {
+                scrollToSection(2);
+                setIsMobileMenuOpen(false);
+              }}
+              className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300"
+            >
+              How it Works
+            </button>
+            <button
+              onClick={() => {
+                scrollToSection(3);
+                setIsMobileMenuOpen(false);
+              }}
+              className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300"
+            >
+              Team
+            </button>
+            <button
+              onClick={() => {
+                scrollToSection(4);
+                setIsMobileMenuOpen(false);
+              }}
+              className="bg-gray-800 text-white hover:bg-gray-700 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300 mt-2"
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
+      </nav>
 
-      {/* Section 2: Schronix Title */}
+      {/* Section 1: Schronix Title */}
       <div 
-        ref={el => sectionsRef.current[1] = el}
+        ref={el => sectionsRef.current[0] = el}
         className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
         data-testid="schronix-section"
       >
-        <FlowingLines sectionIndex={1} />
+        <FlowingLines sectionIndex={0} />
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <div className={`transition-all duration-1000 ${isVisible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -359,7 +330,7 @@ export default function Home() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => scrollToSection(2)}
+              onClick={() => scrollToSection(1)}
               className="text-gray-600 hover:text-gray-800"
               data-testid="button-scroll-to-about"
             >
@@ -369,13 +340,13 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Section 3: About Schronix */}
+      {/* Section 2: About Schronix */}
       <div 
-        ref={el => sectionsRef.current[2] = el}
+        ref={el => sectionsRef.current[1] = el}
         className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
         data-testid="about-section"
       >
-        <FlowingLines sectionIndex={2} />
+        <FlowingLines sectionIndex={1} />
         
         <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
           <div className={`transition-all duration-1000 ${isVisible[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -423,7 +394,7 @@ export default function Home() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => scrollToSection(3)}
+              onClick={() => scrollToSection(2)}
               className="text-gray-600 hover:text-gray-800"
               data-testid="button-scroll-to-roadmap"
             >
@@ -433,13 +404,13 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Section 4: Roadmap */}
+      {/* Section 3: Roadmap */}
       <div 
-        ref={el => sectionsRef.current[3] = el}
+        ref={el => sectionsRef.current[2] = el}
         className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
         data-testid="roadmap-section"
       >
-        <FlowingLines sectionIndex={3} />
+        <FlowingLines sectionIndex={2} />
         
         <div className="relative z-10 text-center max-w-7xl mx-auto px-6">
           <div className={`transition-all duration-1000 ${isVisible[3] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -534,7 +505,7 @@ export default function Home() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => scrollToSection(4)}
+              onClick={() => scrollToSection(3)}
               className="text-gray-600 hover:text-gray-800"
               data-testid="button-scroll-to-team"
             >
@@ -544,13 +515,13 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Section 5: Team */}
+      {/* Section 4: Team */}
       <div 
-        ref={el => sectionsRef.current[4] = el}
+        ref={el => sectionsRef.current[3] = el}
         className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
         data-testid="team-section"
       >
-        <FlowingLines sectionIndex={4} />
+        <FlowingLines sectionIndex={3} />
         
         <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
           <div className={`transition-all duration-1000 ${isVisible[4] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -598,7 +569,7 @@ export default function Home() {
             
             {/* Continue to Upload button */}
             <Button
-              onClick={() => scrollToSection(5)}
+              onClick={() => scrollToSection(4)}
               className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
               data-testid="button-continue-to-upload"
             >
@@ -608,13 +579,13 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Section 6: Upload */}
+      {/* Section 5: Upload */}
       <div 
-        ref={el => sectionsRef.current[5] = el}
+        ref={el => sectionsRef.current[4] = el}
         className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center" 
         data-testid="upload-section"
       >
-        <FlowingLines sectionIndex={5} />
+        <FlowingLines sectionIndex={4} />
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <h2 
