@@ -4,39 +4,59 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, Upload, ChevronDown } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
-// Flowing lines component to match the design
+// Flowing lines component to match the exact design from the image
 function FlowingLines() {
   return (
     <div className="absolute inset-0 overflow-hidden">
       <svg
         className="absolute bottom-0 right-0 w-full h-full"
-        viewBox="0 0 1200 800"
+        viewBox="0 0 1400 900"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMaxYMax slice"
       >
-        <defs>
-          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#374151', stopOpacity: 0.1 }} />
-            <stop offset="100%" style={{ stopColor: '#1f2937', stopOpacity: 0.3 }} />
-          </linearGradient>
-        </defs>
+        {/* Create the exact flowing curves from the design */}
+        {Array.from({ length: 30 }, (_, i) => {
+          const offset = i * 8;
+          const curvature = 300 + i * 15;
+          return (
+            <path
+              key={i}
+              d={`M ${1400 - offset} 900 Q ${1200 - offset} ${700 - i * 12} ${1000 - offset} ${500 - i * 8} Q ${800 - offset} ${300 - i * 6} ${600 - offset} ${200 - i * 4} Q ${400 - offset} ${100 - i * 3} ${200 - offset} ${50 - i * 2}`}
+              stroke="rgba(0, 0, 0, 0.15)"
+              strokeWidth="1.5"
+              fill="none"
+              className="animate-draw"
+              style={{ 
+                strokeDasharray: 2000,
+                strokeDashoffset: 2000,
+                animationDelay: `${i * 0.05}s`,
+                animationDuration: '3s'
+              }}
+            />
+          );
+        })}
         
-        {/* Flowing curved lines matching the design */}
-        {Array.from({ length: 20 }, (_, i) => (
-          <path
-            key={i}
-            d={`M ${1200 - i * 20} 800 Q ${1000 - i * 15} ${600 - i * 8} ${800 - i * 25} ${400 - i * 12} T ${400 - i * 30} ${200 - i * 15}`}
-            stroke="url(#lineGradient)"
-            strokeWidth="1"
-            fill="none"
-            className="animate-draw"
-            style={{ 
-              strokeDasharray: 1000,
-              strokeDashoffset: 1000,
-              animationDelay: `${i * 0.1}s`
-            }}
-          />
-        ))}
+        {/* Additional curved lines for depth */}
+        {Array.from({ length: 25 }, (_, i) => {
+          const offset = i * 12;
+          return (
+            <path
+              key={`secondary-${i}`}
+              d={`M ${1350 - offset} 900 Q ${1150 - offset} ${650 - i * 10} ${950 - offset} ${450 - i * 8} Q ${750 - offset} ${250 - i * 6} ${550 - offset} ${150 - i * 4}`}
+              stroke="rgba(0, 0, 0, 0.08)"
+              strokeWidth="1"
+              fill="none"
+              className="animate-draw"
+              style={{ 
+                strokeDasharray: 1500,
+                strokeDashoffset: 1500,
+                animationDelay: `${i * 0.08}s`,
+                animationDuration: '4s'
+              }}
+            />
+          );
+        })}
       </svg>
     </div>
   );
