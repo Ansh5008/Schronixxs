@@ -573,14 +573,14 @@ export default function Home() {
             </div>
             
             <div className="mt-8">
-              <Button
-                disabled
-                className="bg-gray-400 cursor-not-allowed text-white px-8 py-3 rounded-lg text-lg font-semibold opacity-50"
-                data-testid="button-go-to-dashboard"
-              >
-                Go to Dashboard
-              </Button>
-              <p className="text-sm text-gray-600 mt-2">Upload documents first to access dashboard</p>
+              <Link href="/dashboard">
+                <Button
+                  className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                  data-testid="button-go-to-dashboard"
+                >
+                  Go to Dashboard
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

@@ -142,9 +142,9 @@ export default function UploadZone({ type, title, description, icon }: UploadZon
         <Button 
           className={`${
             uploadStatus === "success" 
-              ? "bg-schronix-accent hover:bg-schronix-accent/80" 
-              : "bg-schronix-primary hover:bg-schronix-secondary"
-          } transition-colors`}
+              ? "bg-green-600 hover:bg-green-700" 
+              : "bg-gray-800 hover:bg-gray-900"
+          } text-white transition-colors`}
           disabled={isUploading}
           data-testid={`button-upload-${type}`}
         >
