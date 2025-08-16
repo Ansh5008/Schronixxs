@@ -26,17 +26,27 @@ import { Link } from "wouter";
 export default function Dashboard() {
   const [selectedTab, setSelectedTab] = useState("dashboard");
   
-  const { data: subjects, isLoading: subjectsLoading } = useQuery({
-    queryKey: ['/api/subjects'],
+  const { data: subjects, isLoading: subjectsLoading, error: subjectsError } = useQuery({
+    queryKey: ['/api', 'subjects'],
   });
 
-  const { data: upcomingEvents, isLoading: eventsLoading } = useQuery({
-    queryKey: ['/api/schedule?upcoming=true'],
+  const { data: upcomingEvents, isLoading: eventsLoading, error: eventsError } = useQuery({
+    queryKey: ['/api', 'schedule'],
+    queryFn: async () => {
+      const response = await fetch('/api/schedule?upcoming=true');
+      if (!response.ok) throw new Error('Failed to fetch events');
+      return response.json();
+    }
   });
 
-  const { data: uploadedDocuments, isLoading: documentsLoading } = useQuery({
-    queryKey: ['/api/documents'],
+  const { data: uploadedDocuments, isLoading: documentsLoading, error: documentsError } = useQuery({
+    queryKey: ['/api', 'documents'],
   });
+
+  // Debug logging
+  console.log('Dashboard data:', { subjects, upcomingEvents, uploadedDocuments });
+  console.log('Loading states:', { subjectsLoading, eventsLoading, documentsLoading });
+  console.log('Errors:', { subjectsError, eventsError, documentsError });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800" data-testid="dashboard-page">
