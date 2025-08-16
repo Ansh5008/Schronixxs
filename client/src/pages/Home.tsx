@@ -6,11 +6,8 @@ import { Card } from "@/components/ui/card";
 import UploadZone from "@/components/ui/upload-zone";
 import { useToast } from "@/hooks/use-toast";
 
-// Continuous flowing lines that connect and descend through all sections
+// Elegant flowing lines that match the exact design from the image
 function FlowingLines({ sectionIndex = 0 }) {
-  const sectionHeight = 1080; // Standard section height
-  const totalSections = 6;
-  
   return (
     <div className="absolute inset-0 overflow-hidden">
       {/* 2030 text in top-right corner - only on first section */}
@@ -22,133 +19,98 @@ function FlowingLines({ sectionIndex = 0 }) {
       
       <svg
         className="absolute inset-0 w-full h-full"
-        viewBox={`0 0 1920 ${sectionHeight * totalSections}`}
+        viewBox="0 0 1920 1080"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid slice"
-        style={{
-          transform: `translateY(-${sectionIndex * sectionHeight}px)`
-        }}
+        preserveAspectRatio="none"
       >
-        <defs>
-          {/* Gradient for smooth transitions */}
-          <linearGradient id={`flowGradient-${sectionIndex}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgba(0, 0, 0, 0.8)" />
-            <stop offset="50%" stopColor="rgba(0, 0, 0, 0.5)" />
-            <stop offset="100%" stopColor="rgba(0, 0, 0, 0.3)" />
-          </linearGradient>
-        </defs>
-
-        {/* Main continuous flowing curves that descend through all sections */}
+        {/* Multiple parallel flowing lines that match the image exactly */}
+        {Array.from({ length: 25 }, (_, i) => {
+          const lineSpacing = i * 8;
+          const yOffset = i * 6;
+          const opacity = Math.max(0.15, 0.4 - i * 0.012);
+          const strokeWidth = Math.max(0.5, 1.5 - i * 0.04);
+          
+          return (
+            <path
+              key={`flowing-line-${i}`}
+              d={`
+                M ${200 + lineSpacing} ${800 + yOffset + sectionIndex * 100}
+                C ${400 + lineSpacing} ${700 + yOffset + sectionIndex * 100}
+                  ${600 + lineSpacing} ${650 + yOffset + sectionIndex * 100}
+                  ${800 + lineSpacing} ${580 + yOffset + sectionIndex * 100}
+                C ${1000 + lineSpacing} ${510 + yOffset + sectionIndex * 100}
+                  ${1200 + lineSpacing} ${450 + yOffset + sectionIndex * 100}
+                  ${1400 + lineSpacing} ${380 + yOffset + sectionIndex * 100}
+                C ${1500 + lineSpacing} ${340 + yOffset + sectionIndex * 100}
+                  ${1600 + lineSpacing} ${300 + yOffset + sectionIndex * 100}
+                  ${1720 + lineSpacing} ${250 + yOffset + sectionIndex * 100}
+              `}
+              stroke={`rgba(0, 0, 0, ${opacity})`}
+              strokeWidth={strokeWidth}
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          );
+        })}
+        
+        {/* Additional curves for the upper flow that connects to next section */}
         {Array.from({ length: 20 }, (_, i) => {
-          const yStart = i * 40;
-          const flowOffset = sectionIndex * 200;
+          const lineSpacing = i * 10;
+          const yOffset = i * 4;
+          const opacity = Math.max(0.1, 0.35 - i * 0.015);
+          const strokeWidth = Math.max(0.3, 1.2 - i * 0.05);
+          
           return (
             <path
-              key={`main-flow-${i}`}
+              key={`upper-flow-${i}`}
               d={`
-                M 0 ${yStart + flowOffset}
-                C 300 ${yStart - 50 + flowOffset} 600 ${yStart - 100 + flowOffset} 900 ${yStart + flowOffset}
-                C 1200 ${yStart + 100 + flowOffset} 1500 ${yStart + 50 + flowOffset} 1920 ${yStart + 200 + flowOffset}
-                
-                C 1600 ${yStart + 400 + flowOffset} 1300 ${yStart + 350 + flowOffset} 1000 ${yStart + 500 + flowOffset}
-                C 700 ${yStart + 650 + flowOffset} 400 ${yStart + 600 + flowOffset} 0 ${yStart + 800 + flowOffset}
-                
-                C 300 ${yStart + 950 + flowOffset} 600 ${yStart + 900 + flowOffset} 900 ${yStart + 1000 + flowOffset}
-                C 1200 ${yStart + 1100 + flowOffset} 1500 ${yStart + 1050 + flowOffset} 1920 ${yStart + 1200 + flowOffset}
-                
-                C 1600 ${yStart + 1400 + flowOffset} 1300 ${yStart + 1350 + flowOffset} 1000 ${yStart + 1500 + flowOffset}
-                C 700 ${yStart + 1650 + flowOffset} 400 ${yStart + 1600 + flowOffset} 0 ${yStart + 1800 + flowOffset}
-                
-                C 300 ${yStart + 1950 + flowOffset} 600 ${yStart + 1900 + flowOffset} 900 ${yStart + 2000 + flowOffset}
-                C 1200 ${yStart + 2100 + flowOffset} 1500 ${yStart + 2050 + flowOffset} 1920 ${yStart + 2200 + flowOffset}
-                
-                C 1600 ${yStart + 2400 + flowOffset} 1300 ${yStart + 2350 + flowOffset} 1000 ${yStart + 2500 + flowOffset}
-                C 700 ${yStart + 2650 + flowOffset} 400 ${yStart + 2600 + flowOffset} 0 ${yStart + 2800 + flowOffset}
+                M ${300 + lineSpacing} ${1080 + yOffset + sectionIndex * 80}
+                C ${500 + lineSpacing} ${980 + yOffset + sectionIndex * 80}
+                  ${700 + lineSpacing} ${930 + yOffset + sectionIndex * 80}
+                  ${900 + lineSpacing} ${860 + yOffset + sectionIndex * 80}
+                C ${1100 + lineSpacing} ${790 + yOffset + sectionIndex * 80}
+                  ${1300 + lineSpacing} ${730 + yOffset + sectionIndex * 80}
+                  ${1500 + lineSpacing} ${660 + yOffset + sectionIndex * 80}
+                C ${1600 + lineSpacing} ${620 + yOffset + sectionIndex * 80}
+                  ${1700 + lineSpacing} ${580 + yOffset + sectionIndex * 80}
+                  ${1820 + lineSpacing} ${530 + yOffset + sectionIndex * 80}
               `}
-              stroke={`rgba(0, 0, 0, ${0.7 - i * 0.02})`}
-              strokeWidth={`${2 - i * 0.05}`}
+              stroke={`rgba(0, 0, 0, ${opacity})`}
+              strokeWidth={strokeWidth}
               fill="none"
-              strokeDasharray={`${30 + i * 2} ${15 + i}`}
-              style={{
-                animationDelay: `${i * 0.1}s`
-              }}
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                values="0;-50;0"
-                dur={`${8 + i * 0.3}s`}
-                repeatCount="indefinite"
-                begin={`${i * 0.05}s`}
-              />
-            </path>
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           );
         })}
         
-        {/* Secondary connecting curves for smoother flow */}
+        {/* Connecting curves that bridge between the main flows */}
         {Array.from({ length: 15 }, (_, i) => {
-          const spacing = i * 8;
-          const verticalFlow = sectionIndex * 180;
+          const lineSpacing = i * 12;
+          const yOffset = i * 5;
+          const opacity = Math.max(0.08, 0.25 - i * 0.012);
+          const strokeWidth = Math.max(0.4, 1 - i * 0.04);
+          
           return (
             <path
-              key={`secondary-flow-${i}`}
+              key={`bridge-flow-${i}`}
               d={`
-                M ${1920 - spacing} ${verticalFlow}
-                C ${1800 - spacing} ${200 + verticalFlow} ${1700 - spacing} ${400 + verticalFlow} ${1600 - spacing} ${600 + verticalFlow}
-                C ${1500 - spacing} ${800 + verticalFlow} ${1400 - spacing} ${1000 + verticalFlow} ${1300 - spacing} ${1200 + verticalFlow}
-                C ${1200 - spacing} ${1400 + verticalFlow} ${1100 - spacing} ${1600 + verticalFlow} ${1000 - spacing} ${1800 + verticalFlow}
-                C ${900 - spacing} ${2000 + verticalFlow} ${800 - spacing} ${2200 + verticalFlow} ${700 - spacing} ${2400 + verticalFlow}
-                C ${600 - spacing} ${2600 + verticalFlow} ${500 - spacing} ${2800 + verticalFlow} ${400 - spacing} ${3000 + verticalFlow}
-                C ${300 - spacing} ${3200 + verticalFlow} ${200 - spacing} ${3400 + verticalFlow} ${100 - spacing} ${3600 + verticalFlow}
+                M ${100 + lineSpacing} ${900 + yOffset + sectionIndex * 120}
+                C ${350 + lineSpacing} ${820 + yOffset + sectionIndex * 120}
+                  ${650 + lineSpacing} ${780 + yOffset + sectionIndex * 120}
+                  ${950 + lineSpacing} ${720 + yOffset + sectionIndex * 120}
+                C ${1250 + lineSpacing} ${660 + yOffset + sectionIndex * 120}
+                  ${1550 + lineSpacing} ${600 + yOffset + sectionIndex * 120}
+                  ${1850 + lineSpacing} ${540 + yOffset + sectionIndex * 120}
               `}
-              stroke={`rgba(0, 0, 0, ${0.5 - i * 0.02})`}
-              strokeWidth={`${1.5 - i * 0.05}`}
+              stroke={`rgba(0, 0, 0, ${opacity})`}
+              strokeWidth={strokeWidth}
               fill="none"
-              strokeDasharray={`${25 + i} ${12 + i * 0.5}`}
-              style={{
-                animationDelay: `${i * 0.15}s`
-              }}
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                values="0;-40;0"
-                dur={`${6 + i * 0.4}s`}
-                repeatCount="indefinite"
-                begin={`${i * 0.08}s`}
-              />
-            </path>
-          );
-        })}
-        
-        {/* Bottom flowing curves for base pattern */}
-        {Array.from({ length: 12 }, (_, i) => {
-          const yOffset = i * 12;
-          const baseY = sectionHeight * (sectionIndex + 1) - 200;
-          return (
-            <path
-              key={`bottom-flow-${i}`}
-              d={`
-                M 0 ${baseY - yOffset}
-                C 200 ${baseY - 30 - yOffset} 400 ${baseY - 60 - yOffset} 600 ${baseY - 80 - yOffset}
-                C 800 ${baseY - 100 - yOffset} 1000 ${baseY - 110 - yOffset} 1200 ${baseY - 120 - yOffset}
-                C 1400 ${baseY - 130 - yOffset} 1600 ${baseY - 140 - yOffset} 1920 ${baseY - 150 - yOffset}
-              `}
-              stroke={`rgba(0, 0, 0, ${0.6 - i * 0.03})`}
-              strokeWidth={`${1.8 - i * 0.08}`}
-              fill="none"
-              strokeDasharray={`${20 + i} ${10 + i * 0.5}`}
-              style={{
-                animationDelay: `${i * 0.12}s`
-              }}
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                values="0;-30;0"
-                dur={`${5 + i * 0.2}s`}
-                repeatCount="indefinite"
-                begin={`${i * 0.06}s`}
-              />
-            </path>
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           );
         })}
       </svg>
