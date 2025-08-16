@@ -447,17 +447,16 @@ export default function Home() {
               <Card className="p-8 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-slide-in-left delay-200" data-testid="card-team-leader">
                 <div className="text-center">
                   <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4 animate-float"></div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2" data-testid="text-leader-name">Team Leader</h3>
-                  <p className="text-gray-600" data-testid="text-leader-role">Project Manager</p>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2" data-testid="text-leader-name">Vansh Sharma</h3>
+                  <p className="text-gray-600" data-testid="text-leader-role">Team Leader</p>
                 </div>
               </Card>
 
               {/* Team Members */}
               {[
-                { name: "Developer 1", role: "Frontend Developer" },
-                { name: "Developer 2", role: "Backend Developer" },
-                { name: "Designer", role: "UI/UX Designer" },
-                { name: "Analyst", role: "Data Analyst" },
+                { name: "Ansh Kumar", role: "Developer" },
+                { name: "Prakhar Dhaundhiyal", role: "Developer" },
+                { name: "Indransh Pratap Singh", role: "Developer" },
               ].map((member, index) => (
                 <Card 
                   key={member.name}
