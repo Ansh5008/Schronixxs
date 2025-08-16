@@ -110,7 +110,10 @@ export class MemStorage implements IStorage {
   async createSubject(insertSubject: InsertSubject): Promise<Subject> {
     const id = randomUUID();
     const subject: Subject = { 
-      ...insertSubject, 
+      ...insertSubject,
+      totalClasses: insertSubject.totalClasses ?? 30,
+      attendedClasses: insertSubject.attendedClasses ?? 0,
+      minimumAttendance: insertSubject.minimumAttendance ?? 75,
       id,
       createdAt: new Date()
     };
@@ -141,7 +144,8 @@ export class MemStorage implements IStorage {
   async createAttendanceRecord(insertRecord: InsertAttendanceRecord): Promise<AttendanceRecord> {
     const id = randomUUID();
     const record: AttendanceRecord = { 
-      ...insertRecord, 
+      ...insertRecord,
+      attended: insertRecord.attended ?? true,
       id,
       createdAt: new Date()
     };
@@ -161,7 +165,9 @@ export class MemStorage implements IStorage {
   async createUploadedDocument(insertDocument: InsertUploadedDocument): Promise<UploadedDocument> {
     const id = randomUUID();
     const document: UploadedDocument = { 
-      ...insertDocument, 
+      ...insertDocument,
+      extractedText: insertDocument.extractedText ?? null,
+      processed: insertDocument.processed ?? false,
       id,
       createdAt: new Date()
     };
@@ -194,7 +200,9 @@ export class MemStorage implements IStorage {
   async createScheduleEvent(insertEvent: InsertScheduleEvent): Promise<ScheduleEvent> {
     const id = randomUUID();
     const event: ScheduleEvent = { 
-      ...insertEvent, 
+      ...insertEvent,
+      subjectId: insertEvent.subjectId ?? null,
+      location: insertEvent.location ?? null,
       id,
       createdAt: new Date()
     };

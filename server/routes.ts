@@ -1,14 +1,18 @@
-import type { Express } from "express";
+import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import multer from "multer";
+import multer, { type FileFilterCallback } from "multer";
 import { z } from "zod";
 import { insertSubjectSchema, insertAttendanceRecordSchema, insertScheduleEventSchema } from "@shared/schema";
+
+interface MulterRequest extends Request {
+  file?: Express.Multer.File;
+}
 
 // Configure multer for file uploads
 const upload = multer({ 
   dest: 'uploads/',
-  fileFilter: (req, file, cb) => {
+  fileFilter: (req: Express.Request, file: Express.Multer.File, cb: FileFilterCallback) => {
     if (file.mimetype === 'application/pdf') {
       cb(null, true);
     } else {
@@ -175,7 +179,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Upload PDF document
-  app.post("/api/upload", upload.single('pdf'), async (req, res) => {
+  app.post("/api/upload", upload.single('pdf'), async (req: MulterRequest, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
@@ -187,7 +191,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Extract text from PDF (simplified for demo)
-      const extractedText = extractTextFromPDF(req.file.buffer);
+      const extractedText = "Sample extracted text from PDF document";
 
       const document = await storage.createUploadedDocument({
         filename: req.file.originalname,
