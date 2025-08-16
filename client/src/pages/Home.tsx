@@ -442,35 +442,39 @@ export default function Home() {
               Our Team
             </h2>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {/* Team Leader */}
-              <Card className="p-8 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-slide-in-left delay-200" data-testid="card-team-leader">
-                <div className="text-center">
-                  <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4 animate-float"></div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2" data-testid="text-leader-name">Vansh Sharma</h3>
-                  <p className="text-gray-600" data-testid="text-leader-role">Team Leader</p>
-                </div>
-              </Card>
-
-              {/* Team Members */}
-              {[
-                { name: "Ansh Kumar", role: "Developer" },
-                { name: "Prakhar Dhaundhiyal", role: "Developer" },
-                { name: "Indransh Pratap Singh", role: "Developer" },
-              ].map((member, index) => (
-                <Card 
-                  key={member.name}
-                  className="p-8 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-slide-in-right"
-                  style={{ animationDelay: `${(index + 1) * 0.2}s` }}
-                  data-testid={`card-team-member-${index}`}
-                >
+            <div className="mb-12">
+              {/* Team Leader - Centered */}
+              <div className="flex justify-center mb-8">
+                <Card className="p-8 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-slide-in-left delay-200 max-w-sm" data-testid="card-team-leader">
                   <div className="text-center">
-                    <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4 animate-float" style={{ animationDelay: `${index * 0.5}s` }}></div>
-                    <h3 className="text-xl font-semibold text-gray-800 mb-2" data-testid={`text-member-name-${index}`}>{member.name}</h3>
-                    <p className="text-gray-600" data-testid={`text-member-role-${index}`}>{member.role}</p>
+                    <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4 animate-float"></div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2" data-testid="text-leader-name">Vansh Sharma</h3>
+                    <p className="text-gray-600" data-testid="text-leader-role">Team Leader</p>
                   </div>
                 </Card>
-              ))}
+              </div>
+
+              {/* Team Members - In a line below */}
+              <div className="grid md:grid-cols-3 gap-8">
+                {[
+                  { name: "Ansh Kumar", role: "Developer" },
+                  { name: "Prakhar Dhaundhiyal", role: "Developer" },
+                  { name: "Indransh Pratap Singh", role: "Developer" },
+                ].map((member, index) => (
+                  <Card 
+                    key={member.name}
+                    className="p-8 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-slide-in-right"
+                    style={{ animationDelay: `${(index + 1) * 0.2}s` }}
+                    data-testid={`card-team-member-${index}`}
+                  >
+                    <div className="text-center">
+                      <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4 animate-float" style={{ animationDelay: `${index * 0.5}s` }}></div>
+                      <h3 className="text-xl font-semibold text-gray-800 mb-2" data-testid={`text-member-name-${index}`}>{member.name}</h3>
+                      <p className="text-gray-600" data-testid={`text-member-role-${index}`}>{member.role}</p>
+                    </div>
+                  </Card>
+                ))}
+              </div>
             </div>
             
             {/* Continue to Upload button */}
