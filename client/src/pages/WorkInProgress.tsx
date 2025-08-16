@@ -140,8 +140,8 @@ export default function WorkInProgress() {
               The dashboard will include smart analytics, attendance predictions, and seamless PDF processing.
             </p>
             
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/* Action Button */}
+            <div className="flex justify-center">
               <Link href="/">
                 <Button
                   className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
@@ -149,12 +149,6 @@ export default function WorkInProgress() {
                   Back to Home
                 </Button>
               </Link>
-              <Button
-                variant="outline"
-                className="border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-              >
-                Notify When Ready
-              </Button>
             </div>
             
             {/* Coming Soon Badge */}
