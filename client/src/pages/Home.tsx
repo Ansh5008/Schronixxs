@@ -3,6 +3,8 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Upload, ChevronDown } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import UploadZone from "@/components/ui/upload-zone";
+import { useToast } from "@/hooks/use-toast";
 
 // Exact flowing lines pattern matching the provided image
 function FlowingLines() {
@@ -108,9 +110,18 @@ export default function Home() {
     }
   };
 
-  const handleUploadClick = () => {
-    // Navigate to dashboard when upload is clicked
-    window.location.href = '/dashboard';
+  const { toast } = useToast();
+  
+  const handleUploadSuccess = () => {
+    toast({
+      title: "Upload successful",
+      description: "Your document has been processed. Redirecting to dashboard...",
+    });
+    
+    // Navigate to dashboard after a brief delay
+    setTimeout(() => {
+      window.location.href = '/dashboard';
+    }, 2000);
   };
 
   return (
@@ -261,14 +272,30 @@ export default function Home() {
             Upload your academic calendars and timetables to start smart attendance tracking
           </p>
           
-          <Button
-            onClick={handleUploadClick}
-            className="bg-gray-800 hover:bg-gray-900 text-white px-12 py-6 rounded-lg text-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl animate-fade-in-up delay-500 hover:scale-105"
-            data-testid="button-upload"
-          >
-            <Upload className="mr-3 h-6 w-6" />
-            Upload
-          </Button>
+          <div className="grid md:grid-cols-2 gap-8 animate-fade-in-up delay-500">
+            <UploadZone
+              type="calendar"
+              title="Upload Calendar"
+              description="Upload your academic calendar to track important dates"
+              icon="calendar"
+            />
+            <UploadZone
+              type="timetable"
+              title="Upload Timetable"
+              description="Upload your class timetable for automatic scheduling"
+              icon="table"
+            />
+          </div>
+          
+          <div className="mt-8">
+            <Button
+              onClick={() => window.location.href = '/dashboard'}
+              className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+              data-testid="button-go-to-dashboard"
+            >
+              Go to Dashboard
+            </Button>
+          </div>
         </div>
       </div>
     </div>

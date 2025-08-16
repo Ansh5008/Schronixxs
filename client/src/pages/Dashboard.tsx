@@ -34,6 +34,10 @@ export default function Dashboard() {
     queryKey: ['/api/schedule?upcoming=true'],
   });
 
+  const { data: uploadedDocuments, isLoading: documentsLoading } = useQuery({
+    queryKey: ['/api/documents'],
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800" data-testid="dashboard-page">
       
@@ -272,6 +276,64 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
 
+              {/* Uploaded Documents */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg">Uploaded Documents</CardTitle>
+                    <Badge variant="outline" className="text-xs">
+                      {uploadedDocuments?.length || 0} files
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  {documentsLoading ? (
+                    <div className="space-y-3">
+                      {[1, 2, 3].map((i) => (
+                        <div key={i} className="animate-pulse">
+                          <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                          <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : uploadedDocuments && uploadedDocuments.length > 0 ? (
+                    <div className="space-y-4">
+                      {uploadedDocuments.map((doc: any, index: number) => (
+                        <div key={doc.id} className="flex space-x-3">
+                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-lg">
+                            {doc.type === 'calendar' ? '📅' : '📋'}
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-medium text-sm">{doc.filename}</div>
+                            <div className="text-xs text-gray-500 capitalize">{doc.type}</div>
+                            <div className="text-xs text-gray-400 mt-1">
+                              {doc.processed ? (
+                                <span className="text-green-600">✓ Processed</span>
+                              ) : (
+                                <span className="text-orange-500">⏳ Processing...</span>
+                              )}
+                            </div>
+                          </div>
+                          <Badge variant={doc.processed ? "default" : "secondary"} className="text-xs">
+                            {doc.processed ? "Ready" : "Processing"}
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-6">
+                      <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                      <p className="text-sm text-gray-500">No documents uploaded yet</p>
+                      <Link href="/">
+                        <Button variant="outline" size="sm" className="mt-2">
+                          Upload Documents
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
               {/* Upcoming Events */}
               <Card>
                 <CardHeader className="pb-3">
@@ -281,33 +343,39 @@ export default function Dashboard() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    {[
-                      { 
-                        title: 'Webinar of new tools in Minecraft Robot', 
-                        subtitle: 'Pon - will coming soon 🚧',
-                        date: '23 • December 2023 - 7:45 PM',
-                        avatar: '🤖'
-                      },
-                      { 
-                        title: 'Webinar of new tools in Minecraft', 
-                        date: '24 • December 2023 - 11:05 PM',
-                        avatar: '⚡'
-                      }
-                    ].map((event, index) => (
-                      <div key={index} className="flex space-x-3">
-                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-lg">
-                          {event.avatar}
+                  {eventsLoading ? (
+                    <div className="space-y-3">
+                      {[1, 2].map((i) => (
+                        <div key={i} className="animate-pulse">
+                          <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                          <div className="h-3 bg-gray-200 rounded w-1/2"></div>
                         </div>
-                        <div className="flex-1">
-                          <div className="font-medium text-sm">{event.title}</div>
-                          {event.subtitle && <div className="text-xs text-gray-500">{event.subtitle}</div>}
-                          <div className="text-xs text-gray-400 mt-1">{event.date}</div>
+                      ))}
+                    </div>
+                  ) : upcomingEvents && upcomingEvents.length > 0 ? (
+                    <div className="space-y-4">
+                      {upcomingEvents.map((event: any, index: number) => (
+                        <div key={event.id} className="flex space-x-3">
+                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-lg">
+                            {event.type === 'class' ? '📚' : event.type === 'exam' ? '📝' : '📋'}
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-medium text-sm">{event.title}</div>
+                            <div className="text-xs text-gray-500">{event.location || 'Online'}</div>
+                            <div className="text-xs text-gray-400 mt-1">
+                              {new Date(event.startTime).toLocaleDateString()} - {new Date(event.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                            </div>
+                          </div>
+                          <button className="text-gray-400">⋮</button>
                         </div>
-                        <button className="text-gray-400">⋮</button>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-6">
+                      <Calendar className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                      <p className="text-sm text-gray-500">No upcoming events</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>
