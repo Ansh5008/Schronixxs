@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import UploadZone from "@/components/ui/upload-zone";
+import { useToast } from "@/hooks/use-toast";
 
 // Elegant flowing lines that match the exact design from the image
 function FlowingLines({ sectionIndex = 0 }) {
@@ -118,7 +120,7 @@ function FlowingLines({ sectionIndex = 0 }) {
 
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
-  const [isVisible, setIsVisible] = useState([true, false, false, false]);
+  const [isVisible, setIsVisible] = useState([true, false, false, false, false]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -137,16 +139,19 @@ export default function Home() {
       
       if (scrollPosition < windowHeight * 0.8) {
         newSection = 0;
-        newVisibility = [true, false, false, false];
+        newVisibility = [true, false, false, false, false];
       } else if (scrollPosition < windowHeight * 1.8) {
         newSection = 1;
-        newVisibility = [false, true, false, false];
+        newVisibility = [false, true, false, false, false];
       } else if (scrollPosition < windowHeight * 2.8) {
         newSection = 2;
-        newVisibility = [false, false, true, false];
-      } else {
+        newVisibility = [false, false, true, false, false];
+      } else if (scrollPosition < windowHeight * 3.8) {
         newSection = 3;
-        newVisibility = [false, false, false, true];
+        newVisibility = [false, false, false, true, false];
+      } else {
+        newSection = 4;
+        newVisibility = [false, false, false, false, true];
       }
       
       if (newSection !== currentSection) {
@@ -163,7 +168,7 @@ export default function Home() {
     const element = sectionsRef.current[index];
     if (element) {
       // Update visibility state immediately when navigating
-      const newVisibility = [false, false, false, false];
+      const newVisibility = [false, false, false, false, false];
       newVisibility[index] = true;
       setIsVisible(newVisibility);
       setCurrentSection(index);
@@ -176,7 +181,19 @@ export default function Home() {
     }
   };
 
-
+  const { toast } = useToast();
+  
+  const handleUploadSuccess = () => {
+    toast({
+      title: "Upload successful",
+      description: "Your document has been processed. Redirecting to dashboard...",
+    });
+    
+    // Navigate to dashboard after a brief delay
+    setTimeout(() => {
+      window.location.href = '/dashboard';
+    }, 2000);
+  };
 
   return (
     <div className="relative" data-testid="home-page">
@@ -212,13 +229,12 @@ export default function Home() {
                 >
                   Team
                 </button>
-                <Link href="/dashboard">
-                  <button 
-                    className="bg-gray-800 text-white hover:bg-gray-700 px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg"
-                  >
-                    Get Started
-                  </button>
-                </Link>
+                <button 
+                  onClick={() => scrollToSection(4)} 
+                  className="bg-gray-800 text-white hover:bg-gray-700 px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg"
+                >
+                  Get Started
+                </button>
               </div>
             </div>
             
@@ -272,14 +288,15 @@ export default function Home() {
             >
               Team
             </button>
-            <Link href="/dashboard">
-              <button
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="bg-gray-800 text-white hover:bg-gray-700 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300 mt-2"
-              >
-                Get Started
-              </button>
-            </Link>
+            <button
+              onClick={() => {
+                scrollToSection(4);
+                setIsMobileMenuOpen(false);
+              }}
+              className="bg-gray-800 text-white hover:bg-gray-700 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300 mt-2"
+            >
+              Get Started
+            </button>
           </div>
         </div>
       </nav>
@@ -517,20 +534,71 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Go to Dashboard button */}
-            <Link href="/dashboard">
-              <Button
-                className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-                data-testid="button-go-to-dashboard"
-              >
-                Go to Dashboard
-              </Button>
-            </Link>
+            {/* Continue to Upload button */}
+            <Button
+              onClick={() => scrollToSection(4)}
+              className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+              data-testid="button-continue-to-upload"
+            >
+              Continue to Upload
+            </Button>
           </div>
         </div>
       </div>
 
-
+      {/* Section 5: Upload */}
+      <div 
+        ref={el => sectionsRef.current[4] = el}
+        className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center" 
+        data-testid="upload-section"
+      >
+        <FlowingLines sectionIndex={4} />
+        
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
+          <div className={`transition-all duration-1000 ${isVisible[4] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 
+              className="text-4xl md:text-6xl font-bold text-gray-800 mb-8 drop-shadow-sm"
+              data-testid="text-upload-title"
+            >
+              Upload PDFs to Begin
+            </h2>
+            
+            <p 
+              className="text-xl text-gray-600 mb-12 drop-shadow-sm"
+              data-testid="text-upload-description"
+            >
+              Upload your academic calendars and timetables to start smart attendance tracking
+            </p>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              <UploadZone
+                type="calendar"
+                title="Upload Calendar"
+                description="Upload your academic calendar to track important dates"
+                icon="calendar"
+                onUploadSuccess={handleUploadSuccess}
+              />
+              <UploadZone
+                type="timetable"
+                title="Upload Timetable"
+                description="Upload your class timetable for automatic scheduling"
+                icon="table"
+                onUploadSuccess={handleUploadSuccess}
+              />
+            </div>
+            
+            <div className="mt-8">
+              <Button
+                onClick={() => window.location.href = '/dashboard'}
+                className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                data-testid="button-go-to-dashboard"
+              >
+                Go to Dashboard
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
