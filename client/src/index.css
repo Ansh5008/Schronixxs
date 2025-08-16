@@ -332,33 +332,4 @@
     width: 300px;
     height: 300px;
   }
-
-  /* Flowing lines animations */
-  .animate-flowing-dash {
-    animation: flowingDash 8s ease-in-out infinite;
-  }
-
-  .animate-flowing-pulse {
-    animation: flowingPulse 6s ease-in-out infinite;
-  }
-
-  .animate-gentle-flow {
-    animation: gentleFlow 12s linear infinite;
-  }
-
-  @keyframes flowingDash {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.8; }
-  }
-  
-  @keyframes flowingPulse {
-    0%, 100% { transform: translateX(0px); }
-    50% { transform: translateX(2px); }
-  }
-  
-  @keyframes gentleFlow {
-    0% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(-1px) scale(1.02); }
-    100% { transform: translateY(0px) scale(1); }
-  }
 }

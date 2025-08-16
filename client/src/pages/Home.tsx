@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import UploadZone from "@/components/ui/upload-zone";
 import { useToast } from "@/hooks/use-toast";
 
-// Animated flowing lines that connect sections like branches
+// Elegant flowing lines that match the exact design from the image
 function FlowingLines({ sectionIndex = 0 }) {
   return (
     <div className="absolute inset-0 overflow-hidden">
@@ -24,164 +24,96 @@ function FlowingLines({ sectionIndex = 0 }) {
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="none"
       >
-        <defs>
-          {/* Flowing gradient for animated effect */}
-          <linearGradient id={`flowingGradient-${sectionIndex}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(0, 0, 0, 0)" />
-            <stop offset="30%" stopColor="rgba(0, 0, 0, 0.4)" />
-            <stop offset="70%" stopColor="rgba(0, 0, 0, 0.6)" />
-            <stop offset="100%" stopColor="rgba(0, 0, 0, 0)" />
-            <animateTransform
-              attributeName="gradientTransform"
-              type="translate"
-              values="-100 0;200 0;-100 0"
-              dur="6s"
-              repeatCount="indefinite"
-            />
-          </linearGradient>
-        </defs>
-
-        {/* Main flowing branch lines that connect sections smoothly */}
-        {Array.from({ length: 30 }, (_, i) => {
-          const spacing = i * 6;
-          const verticalOffset = i * 4;
-          const opacity = Math.max(0.1, 0.5 - i * 0.015);
-          const strokeWidth = Math.max(0.3, 1.8 - i * 0.05);
-          
-          // Create continuous flowing path from current section to next
-          const startY = 1080 - 200 + verticalOffset;
-          const endY = -100 + verticalOffset;
-          
-          return (
-            <path
-              key={`main-branch-${i}`}
-              d={`
-                M ${200 + spacing} ${startY}
-                C ${400 + spacing} ${startY - 150}
-                  ${600 + spacing} ${startY - 250}
-                  ${800 + spacing} ${startY - 350}
-                C ${1000 + spacing} ${startY - 450}
-                  ${1200 + spacing} ${startY - 550}
-                  ${1400 + spacing} ${startY - 650}
-                C ${1500 + spacing} ${startY - 750}
-                  ${1600 + spacing} ${startY - 850}
-                  ${1720 + spacing} ${endY}
-              `}
-              stroke={`rgba(0, 0, 0, ${opacity})`}
-              strokeWidth={strokeWidth}
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeDasharray={`${60 + i * 2} ${20 + i}`}
-              className="animate-pulse"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                values={`0;${-(80 + i * 2)};0`}
-                dur={`${10 + i * 0.3}s`}
-                repeatCount="indefinite"
-                begin={`${i * 0.05}s`}
-              />
-            </path>
-          );
-        })}
-        
-        {/* Secondary branching lines that create the layered effect */}
+        {/* Multiple parallel flowing lines that match the image exactly */}
         {Array.from({ length: 25 }, (_, i) => {
-          const spacing = i * 8;
-          const verticalOffset = i * 5;
-          const opacity = Math.max(0.08, 0.4 - i * 0.012);
-          const strokeWidth = Math.max(0.2, 1.4 - i * 0.04);
+          const lineSpacing = i * 8;
+          const yOffset = i * 6;
+          const opacity = Math.max(0.15, 0.4 - i * 0.012);
+          const strokeWidth = Math.max(0.5, 1.5 - i * 0.04);
           
           return (
             <path
-              key={`secondary-branch-${i}`}
+              key={`flowing-line-${i}`}
               d={`
-                M ${100 + spacing} ${1000 + verticalOffset}
-                C ${300 + spacing} ${900 + verticalOffset}
-                  ${500 + spacing} ${800 + verticalOffset}
-                  ${700 + spacing} ${700 + verticalOffset}
-                C ${900 + spacing} ${600 + verticalOffset}
-                  ${1100 + spacing} ${500 + verticalOffset}
-                  ${1300 + spacing} ${400 + verticalOffset}
-                C ${1450 + spacing} ${300 + verticalOffset}
-                  ${1600 + spacing} ${200 + verticalOffset}
-                  ${1800 + spacing} ${100 + verticalOffset}
+                M ${200 + lineSpacing} ${800 + yOffset + sectionIndex * 100}
+                C ${400 + lineSpacing} ${700 + yOffset + sectionIndex * 100}
+                  ${600 + lineSpacing} ${650 + yOffset + sectionIndex * 100}
+                  ${800 + lineSpacing} ${580 + yOffset + sectionIndex * 100}
+                C ${1000 + lineSpacing} ${510 + yOffset + sectionIndex * 100}
+                  ${1200 + lineSpacing} ${450 + yOffset + sectionIndex * 100}
+                  ${1400 + lineSpacing} ${380 + yOffset + sectionIndex * 100}
+                C ${1500 + lineSpacing} ${340 + yOffset + sectionIndex * 100}
+                  ${1600 + lineSpacing} ${300 + yOffset + sectionIndex * 100}
+                  ${1720 + lineSpacing} ${250 + yOffset + sectionIndex * 100}
               `}
               stroke={`rgba(0, 0, 0, ${opacity})`}
               strokeWidth={strokeWidth}
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeDasharray={`${40 + i} ${15 + i * 0.5}`}
-              className="animate-flowing-pulse"
-              style={{
-                animationDelay: `${i * 0.15}s`
-              }}
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                values={`0;${-(55 + i)};0`}
-                dur={`${7 + i * 0.2}s`}
-                repeatCount="indefinite"
-                begin={`${i * 0.08}s`}
-              />
-              <animate
-                attributeName="opacity"
-                values={`${opacity};${opacity * 1.5};${opacity}`}
-                dur={`${4 + i * 0.1}s`}
-                repeatCount="indefinite"
-                begin={`${i * 0.12}s`}
-              />
-            </path>
+            />
           );
         })}
         
-        {/* Fine detail lines that complete the branching network */}
+        {/* Additional curves for the upper flow that connects to next section */}
         {Array.from({ length: 20 }, (_, i) => {
-          const spacing = i * 10;
-          const verticalOffset = i * 3;
-          const opacity = Math.max(0.05, 0.3 - i * 0.01);
-          const strokeWidth = Math.max(0.1, 1 - i * 0.03);
+          const lineSpacing = i * 10;
+          const yOffset = i * 4;
+          const opacity = Math.max(0.1, 0.35 - i * 0.015);
+          const strokeWidth = Math.max(0.3, 1.2 - i * 0.05);
           
           return (
             <path
-              key={`detail-branch-${i}`}
+              key={`upper-flow-${i}`}
               d={`
-                M ${250 + spacing} ${950 + verticalOffset}
-                C ${450 + spacing} ${850 + verticalOffset}
-                  ${650 + spacing} ${750 + verticalOffset}
-                  ${850 + spacing} ${650 + verticalOffset}
-                C ${1050 + spacing} ${550 + verticalOffset}
-                  ${1250 + spacing} ${450 + verticalOffset}
-                  ${1450 + spacing} ${350 + verticalOffset}
-                C ${1550 + spacing} ${250 + verticalOffset}
-                  ${1650 + spacing} ${150 + verticalOffset}
-                  ${1750 + spacing} ${50 + verticalOffset}
+                M ${300 + lineSpacing} ${1080 + yOffset + sectionIndex * 80}
+                C ${500 + lineSpacing} ${980 + yOffset + sectionIndex * 80}
+                  ${700 + lineSpacing} ${930 + yOffset + sectionIndex * 80}
+                  ${900 + lineSpacing} ${860 + yOffset + sectionIndex * 80}
+                C ${1100 + lineSpacing} ${790 + yOffset + sectionIndex * 80}
+                  ${1300 + lineSpacing} ${730 + yOffset + sectionIndex * 80}
+                  ${1500 + lineSpacing} ${660 + yOffset + sectionIndex * 80}
+                C ${1600 + lineSpacing} ${620 + yOffset + sectionIndex * 80}
+                  ${1700 + lineSpacing} ${580 + yOffset + sectionIndex * 80}
+                  ${1820 + lineSpacing} ${530 + yOffset + sectionIndex * 80}
               `}
               stroke={`rgba(0, 0, 0, ${opacity})`}
               strokeWidth={strokeWidth}
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeDasharray={`${30 + i} ${10 + i * 0.3}`}
-              className="animate-gentle-flow"
-              style={{
-                animationDelay: `${i * 0.2}s`
-              }}
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                values={`0;${-(40 + i)};0`}
-                dur={`${15 + i * 0.3}s`}
-                repeatCount="indefinite"
-                begin={`${i * 0.1}s`}
-              />
-            </path>
+            />
+          );
+        })}
+        
+        {/* Connecting curves that bridge between the main flows */}
+        {Array.from({ length: 15 }, (_, i) => {
+          const lineSpacing = i * 12;
+          const yOffset = i * 5;
+          const opacity = Math.max(0.08, 0.25 - i * 0.012);
+          const strokeWidth = Math.max(0.4, 1 - i * 0.04);
+          
+          return (
+            <path
+              key={`bridge-flow-${i}`}
+              d={`
+                M ${100 + lineSpacing} ${900 + yOffset + sectionIndex * 120}
+                C ${350 + lineSpacing} ${820 + yOffset + sectionIndex * 120}
+                  ${650 + lineSpacing} ${780 + yOffset + sectionIndex * 120}
+                  ${950 + lineSpacing} ${720 + yOffset + sectionIndex * 120}
+                C ${1250 + lineSpacing} ${660 + yOffset + sectionIndex * 120}
+                  ${1550 + lineSpacing} ${600 + yOffset + sectionIndex * 120}
+                  ${1850 + lineSpacing} ${540 + yOffset + sectionIndex * 120}
+              `}
+              stroke={`rgba(0, 0, 0, ${opacity})`}
+              strokeWidth={strokeWidth}
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           );
         })}
       </svg>
-      
     </div>
   );
 }
