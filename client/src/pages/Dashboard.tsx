@@ -156,24 +156,38 @@ export default function Dashboard() {
                   </select>
                 </div>
 
-                {/* Attendance Chart */}
+                {/* Subjects Overview */}
                 <div className="bg-white rounded-lg p-6 mb-6">
                   <div className="text-center mb-4">
-                    <div className="text-4xl font-bold text-blue-600">95.4</div>
-                    <div className="text-sm text-gray-500">average</div>
+                    <div className="text-4xl font-bold text-blue-600">
+                      {subjectsLoading ? '...' : Array.isArray(subjects) ? Math.round(subjects.reduce((acc: number, s: any) => acc + s.attendanceRate, 0) / subjects.length * 10) / 10 : '0'}
+                    </div>
+                    <div className="text-sm text-gray-500">average attendance</div>
                   </div>
                   
-                  {/* Bar Chart */}
-                  <div className="flex items-end justify-center space-x-2 h-32">
-                    {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'].map((month, index) => (
-                      <div key={month} className="flex flex-col items-center">
-                        <div 
-                          className="w-8 bg-blue-500 rounded-t mb-2"
-                          style={{ height: `${70 + index * 10}px` }}
-                        ></div>
-                        <span className="text-xs text-gray-500">{month}</span>
+                  {/* Subjects List */}
+                  <div className="space-y-3">
+                    {subjectsLoading ? (
+                      <div className="animate-pulse space-y-2">
+                        {[1,2,3].map(i => <div key={i} className="h-4 bg-gray-200 rounded"></div>)}
                       </div>
-                    ))}
+                    ) : Array.isArray(subjects) ? (
+                      subjects.map((subject: any) => (
+                        <div key={subject.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                          <div>
+                            <div className="font-medium text-sm">{subject.name}</div>
+                            <div className="text-xs text-gray-500">{subject.attendedClasses}/{subject.totalClasses} classes</div>
+                          </div>
+                          <div className={`px-2 py-1 rounded text-xs font-medium ${
+                            subject.status === 'safe' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                          }`}>
+                            {subject.attendanceRate}%
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-4 text-gray-500 text-sm">No subjects found</div>
+                    )}
                   </div>
                 </div>
 
@@ -282,7 +296,7 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg">Uploaded Documents</CardTitle>
                     <Badge variant="outline" className="text-xs">
-                      {uploadedDocuments?.length || 0} files
+                      {Array.isArray(uploadedDocuments) ? uploadedDocuments.length : 0} files
                     </Badge>
                   </div>
                 </CardHeader>
@@ -296,7 +310,7 @@ export default function Dashboard() {
                         </div>
                       ))}
                     </div>
-                  ) : uploadedDocuments && uploadedDocuments.length > 0 ? (
+                  ) : Array.isArray(uploadedDocuments) && uploadedDocuments.length > 0 ? (
                     <div className="space-y-4">
                       {uploadedDocuments.map((doc: any, index: number) => (
                         <div key={doc.id} className="flex space-x-3">
@@ -352,7 +366,7 @@ export default function Dashboard() {
                         </div>
                       ))}
                     </div>
-                  ) : upcomingEvents && upcomingEvents.length > 0 ? (
+                  ) : Array.isArray(upcomingEvents) && upcomingEvents.length > 0 ? (
                     <div className="space-y-4">
                       {upcomingEvents.map((event: any, index: number) => (
                         <div key={event.id} className="flex space-x-3">
