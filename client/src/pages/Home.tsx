@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { ArrowDown, Upload, ChevronDown } from "lucide-react";
+import { ArrowDown, Upload, ChevronDown, Menu, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import UploadZone from "@/components/ui/upload-zone";
 import { useToast } from "@/hooks/use-toast";
@@ -121,6 +121,7 @@ function FlowingLines({ sectionIndex = 0 }) {
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
   const [isVisible, setIsVisible] = useState([true, false, false, false, false, false]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -180,28 +181,109 @@ export default function Home() {
       {/* Section 1: Minimal Hero - Exact match to design */}
       <div 
         ref={el => sectionsRef.current[0] = el}
-        className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
+        className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center pt-16"
         data-testid="hero-section"
       >
         <FlowingLines sectionIndex={0} />
         
-        {/* Navigation Bar */}
-        <nav className="relative z-20 w-full px-6 py-4">
-          <div className="flex justify-between items-center max-w-6xl mx-auto">
-            <div className="text-2xl font-bold text-gray-800">
-              Schronix
+        {/* Modern Navigation Bar */}
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              {/* Logo */}
+              <div className="flex-shrink-0">
+                <div className="text-2xl font-bold text-gray-800 hover:text-gray-600 transition-colors duration-300 cursor-pointer">
+                  Schronix
+                </div>
+              </div>
+              
+              {/* Desktop Navigation */}
+              <div className="hidden md:block">
+                <div className="ml-10 flex items-baseline space-x-8">
+                  <button 
+                    onClick={() => scrollToSection(1)} 
+                    className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                  >
+                    About
+                  </button>
+                  <button 
+                    onClick={() => scrollToSection(3)} 
+                    className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                  >
+                    How it Works
+                  </button>
+                  <button 
+                    onClick={() => scrollToSection(4)} 
+                    className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                  >
+                    Team
+                  </button>
+                  <button 
+                    onClick={() => scrollToSection(5)} 
+                    className="bg-gray-800 text-white hover:bg-gray-700 px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg"
+                  >
+                    Get Started
+                  </button>
+                </div>
+              </div>
+              
+              {/* Mobile menu button */}
+              <div className="md:hidden">
+                <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="bg-gray-100 hover:bg-gray-200 inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-gray-900 transition-all duration-300 ease-in-out transform hover:scale-105"
+                  aria-expanded="false"
+                >
+                  <span className="sr-only">Open main menu</span>
+                  {isMobileMenuOpen ? (
+                    <X className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <Menu className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </button>
+              </div>
             </div>
-            <div className="hidden md:flex space-x-8">
-              <button onClick={() => scrollToSection(1)} className="text-gray-700 hover:text-gray-900 transition-colors">
+          </div>
+          
+          {/* Mobile Navigation Menu */}
+          <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+            isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+          }`}>
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-white/98 backdrop-blur-md shadow-lg border-t border-gray-100">
+              <button
+                onClick={() => {
+                  scrollToSection(1);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300"
+              >
                 About
               </button>
-              <button onClick={() => scrollToSection(3)} className="text-gray-700 hover:text-gray-900 transition-colors">
+              <button
+                onClick={() => {
+                  scrollToSection(3);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300"
+              >
                 How it Works
               </button>
-              <button onClick={() => scrollToSection(4)} className="text-gray-700 hover:text-gray-900 transition-colors">
+              <button
+                onClick={() => {
+                  scrollToSection(4);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300"
+              >
                 Team
               </button>
-              <button onClick={() => scrollToSection(5)} className="text-gray-700 hover:text-gray-900 transition-colors">
+              <button
+                onClick={() => {
+                  scrollToSection(5);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="bg-gray-800 text-white hover:bg-gray-700 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300 mt-2"
+              >
                 Get Started
               </button>
             </div>
@@ -460,7 +542,7 @@ export default function Home() {
             <div className="mb-12">
               {/* Team Leader - Centered */}
               <div className="flex justify-center mb-8">
-                <Card className="p-8 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-slide-in-left delay-200 max-w-sm" data-testid="card-team-leader">
+                <Card className="p-8 bg-gray-100/90 backdrop-blur-sm border-0 shadow-lg animate-slide-in-left delay-200 max-w-sm" data-testid="card-team-leader">
                   <div className="text-center">
                     <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4 animate-float"></div>
                     <h3 className="text-xl font-semibold text-gray-800 mb-2" data-testid="text-leader-name">Vansh Sharma</h3>
@@ -478,7 +560,7 @@ export default function Home() {
                 ].map((member, index) => (
                   <Card 
                     key={member.name}
-                    className="p-8 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-slide-in-right"
+                    className="p-8 bg-gray-100/90 backdrop-blur-sm border-0 shadow-lg animate-slide-in-right"
                     style={{ animationDelay: `${(index + 1) * 0.2}s` }}
                     data-testid={`card-team-member-${index}`}
                   >
