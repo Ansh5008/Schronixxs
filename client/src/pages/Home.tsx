@@ -124,7 +124,7 @@ function FlowingLines() {
 
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
-  const [isVisible, setIsVisible] = useState([true, false, false]);
+  const [isVisible, setIsVisible] = useState([true, false, false, false, false]);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -135,13 +135,19 @@ export default function Home() {
       // Determine which section should be visible based on scroll
       if (scrollPosition < windowHeight * 0.5) {
         setCurrentSection(0);
-        setIsVisible([true, false, false]);
+        setIsVisible([true, false, false, false, false]);
       } else if (scrollPosition < windowHeight * 1.5) {
         setCurrentSection(1);
-        setIsVisible([false, true, false]);
-      } else {
+        setIsVisible([false, true, false, false, false]);
+      } else if (scrollPosition < windowHeight * 2.5) {
         setCurrentSection(2);
-        setIsVisible([false, false, true]);
+        setIsVisible([false, false, true, false, false]);
+      } else if (scrollPosition < windowHeight * 3.5) {
+        setCurrentSection(3);
+        setIsVisible([false, false, false, true, false]);
+      } else {
+        setCurrentSection(4);
+        setIsVisible([false, false, false, false, true]);
       }
     };
 
@@ -237,6 +243,181 @@ export default function Home() {
               size="icon"
               onClick={() => scrollToSection(2)}
               className="text-gray-600 hover:text-gray-800"
+              data-testid="button-scroll-to-about"
+            >
+              <ChevronDown className="h-6 w-6" />
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Section 3: About Schronix */}
+      <div 
+        ref={el => sectionsRef.current[2] = el}
+        className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
+        data-testid="about-section"
+      >
+        <FlowingLines />
+        
+        <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
+          <div className={`transition-all duration-1000 ${isVisible[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 
+              className="text-4xl md:text-6xl font-bold text-gray-800 mb-12 drop-shadow-sm"
+              data-testid="text-about-title"
+            >
+              About Schronix
+            </h2>
+            
+            <div className="grid md:grid-cols-3 gap-8 mb-16">
+              <div className="text-center transform hover:scale-105 transition-transform duration-300">
+                <div className="w-16 h-16 bg-gray-800 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <span className="text-white text-2xl">📊</span>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">Smart Tracking</h3>
+                <p className="text-gray-600">Intelligent attendance monitoring with AI-powered insights</p>
+              </div>
+              
+              <div className="text-center transform hover:scale-105 transition-transform duration-300">
+                <div className="w-16 h-16 bg-gray-800 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <span className="text-white text-2xl">⚡</span>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">Skip Optimizer</h3>
+                <p className="text-gray-600">Calculate exactly when you can skip classes safely</p>
+              </div>
+              
+              <div className="text-center transform hover:scale-105 transition-transform duration-300">
+                <div className="w-16 h-16 bg-gray-800 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <span className="text-white text-2xl">📱</span>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">Easy Upload</h3>
+                <p className="text-gray-600">Simply upload your timetable and calendar PDFs</p>
+              </div>
+            </div>
+            
+            <p className="text-lg text-gray-700 max-w-3xl mx-auto mb-8 leading-relaxed">
+              Schronix revolutionizes how students manage attendance by combining smart analytics 
+              with intuitive design. Upload your academic documents and let our AI do the rest.
+            </p>
+          </div>
+          
+          {/* Scroll indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => scrollToSection(3)}
+              className="text-gray-600 hover:text-gray-800"
+              data-testid="button-scroll-to-roadmap"
+            >
+              <ChevronDown className="h-6 w-6" />
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Section 4: Roadmap */}
+      <div 
+        ref={el => sectionsRef.current[3] = el}
+        className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
+        data-testid="roadmap-section"
+      >
+        <FlowingLines />
+        
+        <div className="relative z-10 text-center max-w-7xl mx-auto px-6">
+          <div className={`transition-all duration-1000 ${isVisible[3] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 
+              className="text-4xl md:text-6xl font-bold text-gray-800 mb-16 drop-shadow-sm"
+              data-testid="text-roadmap-title"
+            >
+              How to Use Schronix
+            </h2>
+            
+            {/* Branch-style roadmap */}
+            <div className="relative">
+              {/* Central trunk line */}
+              <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gray-800 transform -translate-x-1/2 opacity-30"></div>
+              
+              {/* Step 1 - Left branch */}
+              <div className="flex items-center mb-12 relative">
+                <div className="flex-1 pr-8">
+                  <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg p-6 text-right transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+                    <div className="flex items-center justify-end mb-3">
+                      <h3 className="text-xl font-semibold text-gray-800 mr-3">Upload Documents</h3>
+                      <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold">1</span>
+                      </div>
+                    </div>
+                    <p className="text-gray-600">Upload your academic calendar and class timetable PDFs</p>
+                  </Card>
+                </div>
+                {/* Branch line */}
+                <div className="w-16 h-1 bg-gray-800 opacity-30"></div>
+                <div className="flex-1 pl-8"></div>
+              </div>
+              
+              {/* Step 2 - Right branch */}
+              <div className="flex items-center mb-12 relative">
+                <div className="flex-1 pr-8"></div>
+                {/* Branch line */}
+                <div className="w-16 h-1 bg-gray-800 opacity-30"></div>
+                <div className="flex-1 pl-8">
+                  <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg p-6 text-left transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+                    <div className="flex items-center mb-3">
+                      <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-white font-bold">2</span>
+                      </div>
+                      <h3 className="text-xl font-semibold text-gray-800">AI Processing</h3>
+                    </div>
+                    <p className="text-gray-600">Our AI extracts and analyzes your schedule automatically</p>
+                  </Card>
+                </div>
+              </div>
+              
+              {/* Step 3 - Left branch */}
+              <div className="flex items-center mb-12 relative">
+                <div className="flex-1 pr-8">
+                  <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg p-6 text-right transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+                    <div className="flex items-center justify-end mb-3">
+                      <h3 className="text-xl font-semibold text-gray-800 mr-3">Track Attendance</h3>
+                      <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold">3</span>
+                      </div>
+                    </div>
+                    <p className="text-gray-600">Mark your attendance and view real-time statistics</p>
+                  </Card>
+                </div>
+                {/* Branch line */}
+                <div className="w-16 h-1 bg-gray-800 opacity-30"></div>
+                <div className="flex-1 pl-8"></div>
+              </div>
+              
+              {/* Step 4 - Right branch */}
+              <div className="flex items-center mb-8 relative">
+                <div className="flex-1 pr-8"></div>
+                {/* Branch line */}
+                <div className="w-16 h-1 bg-gray-800 opacity-30"></div>
+                <div className="flex-1 pl-8">
+                  <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg p-6 text-left transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+                    <div className="flex items-center mb-3">
+                      <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-white font-bold">4</span>
+                      </div>
+                      <h3 className="text-xl font-semibold text-gray-800">Smart Insights</h3>
+                    </div>
+                    <p className="text-gray-600">Get personalized recommendations and skip strategies</p>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Scroll indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => scrollToSection(4)}
+              className="text-gray-600 hover:text-gray-800"
               data-testid="button-scroll-to-team"
             >
               <ChevronDown className="h-6 w-6" />
@@ -245,16 +426,16 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Section 3: Team */}
+      {/* Section 5: Team */}
       <div 
-        ref={el => sectionsRef.current[2] = el}
+        ref={el => sectionsRef.current[4] = el}
         className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
         data-testid="team-section"
       >
         <FlowingLines />
         
         <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
-          <div className={`transition-all duration-1000 ${isVisible[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`transition-all duration-1000 ${isVisible[4] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 
               className="text-4xl md:text-6xl font-bold text-gray-800 mb-16 drop-shadow-sm"
               data-testid="text-team-title"
@@ -296,11 +477,8 @@ export default function Home() {
             
             {/* Continue to Upload button */}
             <Button
-              onClick={() => {
-                // Add fourth section or go to upload
-                window.location.href = '/dashboard';
-              }}
-              className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl animate-fade-in-up delay-700 hover:scale-105"
+              onClick={() => scrollToSection(5)}
+              className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
               data-testid="button-continue-to-upload"
             >
               Continue to Upload
@@ -309,8 +487,12 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Section 4: Upload */}
-      <div className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center" data-testid="upload-section">
+      {/* Section 6: Upload */}
+      <div 
+        ref={el => sectionsRef.current[5] = el}
+        className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center" 
+        data-testid="upload-section"
+      >
         <FlowingLines />
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
@@ -328,7 +510,7 @@ export default function Home() {
             Upload your academic calendars and timetables to start smart attendance tracking
           </p>
           
-          <div className="grid md:grid-cols-2 gap-8 animate-fade-in-up delay-500">
+          <div className="grid md:grid-cols-2 gap-8">
             <UploadZone
               type="calendar"
               title="Upload Calendar"
