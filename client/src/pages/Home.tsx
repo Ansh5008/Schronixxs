@@ -142,7 +142,7 @@ export default function Home() {
       } else if (scrollPosition < windowHeight * 3.5) {
         setCurrentSection(3);
         setIsVisible([false, false, false, true, false, false]);
-      } else if (scrollPosition < windowHeight * 4.5) {
+      } else if (scrollPosition < windowHeight * 4.2) {
         setCurrentSection(4);
         setIsVisible([false, false, false, false, true, false]);
       } else {
@@ -542,7 +542,7 @@ export default function Home() {
             <div className="mb-12">
               {/* Team Leader - Centered */}
               <div className="flex justify-center mb-8">
-                <Card className="p-8 bg-gray-100/90 backdrop-blur-sm border-0 shadow-lg animate-slide-in-left delay-200 max-w-sm" data-testid="card-team-leader">
+                <Card className="team-card p-8 animate-slide-in-left delay-200 max-w-sm transition-all duration-300" data-testid="card-team-leader">
                   <div className="text-center">
                     <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4 animate-float"></div>
                     <h3 className="text-xl font-semibold text-gray-800 mb-2" data-testid="text-leader-name">Vansh Sharma</h3>
@@ -560,7 +560,7 @@ export default function Home() {
                 ].map((member, index) => (
                   <Card 
                     key={member.name}
-                    className="p-8 bg-gray-100/90 backdrop-blur-sm border-0 shadow-lg animate-slide-in-right"
+                    className="team-card p-8 animate-slide-in-right transition-all duration-300"
                     style={{ animationDelay: `${(index + 1) * 0.2}s` }}
                     data-testid={`card-team-member-${index}`}
                   >
