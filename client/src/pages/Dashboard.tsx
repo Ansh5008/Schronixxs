@@ -43,10 +43,7 @@ export default function Dashboard() {
     queryKey: ['/api', 'documents'],
   });
 
-  // Debug logging
-  console.log('Dashboard data:', { subjects, upcomingEvents, uploadedDocuments });
-  console.log('Loading states:', { subjectsLoading, eventsLoading, documentsLoading });
-  console.log('Errors:', { subjectsError, eventsError, documentsError });
+  // Debug logging - removed for cleaner console
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800" data-testid="dashboard-page">
@@ -90,7 +87,7 @@ export default function Dashboard() {
                 key={item.id}
                 onClick={() => setSelectedTab(item.id)}
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors ${
-                  selectedTab === item.id || item.active
+                  selectedTab === item.id
                     ? 'bg-white/20 text-white'
                     : 'text-white/70 hover:bg-white/10 hover:text-white'
                 }`}
@@ -116,15 +113,15 @@ export default function Dashboard() {
           {/* Top Bar */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
+              <h2 className="text-2xl font-bold capitalize">{selectedTab}</h2>
+            </div>
+            <div className="flex items-center space-x-4">
               <Input 
                 type="text" 
                 placeholder="Search" 
-                className="w-80 bg-gray-50 border-0 rounded-lg"
+                className="w-60 bg-gray-50 border-0 rounded-lg"
                 data-testid="input-search"
               />
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-500">ENG</span>
               <Bell className="h-5 w-5 text-gray-400" />
               <Avatar data-testid="avatar-user">
                 <AvatarFallback>GS</AvatarFallback>
@@ -136,9 +133,11 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="grid grid-cols-12 gap-6">
-            {/* Left Column */}
-            <div className="col-span-8 space-y-6">
+          {/* Dynamic Content Based on Selected Tab */}
+          {selectedTab === 'dashboard' && (
+            <div className="grid grid-cols-12 gap-6">
+              {/* Left Column */}
+              <div className="col-span-8 space-y-6">
               {/* Welcome Card */}
               <Card>
                 <CardContent className="p-6">
@@ -265,10 +264,10 @@ export default function Dashboard() {
                   ))}
                 </div>
               </div>
-            </div>
+              </div>
 
-            {/* Right Column */}
-            <div className="col-span-4 space-y-6">
+              {/* Right Column */}
+              <div className="col-span-4 space-y-6">
               {/* Calendar */}
               <Card>
                 <CardHeader className="pb-3">
@@ -402,8 +401,227 @@ export default function Dashboard() {
                   )}
                 </CardContent>
               </Card>
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Student Tab */}
+          {selectedTab === 'student' && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Student Profile</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-semibold mb-2">Personal Information</h4>
+                      <p><strong>Name:</strong> Grace Stanley</p>
+                      <p><strong>Student ID:</strong> ST2024001</p>
+                      <p><strong>Email:</strong> grace.stanley@university.edu</p>
+                      <p><strong>Program:</strong> Computer Science</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2">Academic Status</h4>
+                      <p><strong>Year:</strong> 3rd Year</p>
+                      <p><strong>Semester:</strong> Fall 2024</p>
+                      <p><strong>GPA:</strong> 3.8/4.0</p>
+                      <p><strong>Credits:</strong> 120/180</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Schedule Tab */}
+          {selectedTab === 'schedule' && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Weekly Schedule</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {eventsLoading ? (
+                      <div className="animate-pulse space-y-2">
+                        {[1,2,3,4].map(i => <div key={i} className="h-16 bg-gray-200 rounded"></div>)}
+                      </div>
+                    ) : Array.isArray(upcomingEvents) && upcomingEvents.length > 0 ? (
+                      upcomingEvents.map((event: any) => (
+                        <div key={event.id} className="border border-gray-200 rounded-lg p-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h4 className="font-semibold">{event.title}</h4>
+                              <p className="text-sm text-gray-600">{event.location}</p>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-sm font-medium">{new Date(event.startTime).toLocaleDateString()}</p>
+                              <p className="text-sm text-gray-600">
+                                {new Date(event.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - 
+                                {new Date(event.endTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-center text-gray-500 py-8">No scheduled events</p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Materials Tab */}
+          {selectedTab === 'materials' && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Course Materials</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {documentsLoading ? (
+                      <div className="animate-pulse space-y-2">
+                        {[1,2,3].map(i => <div key={i} className="h-12 bg-gray-200 rounded"></div>)}
+                      </div>
+                    ) : Array.isArray(uploadedDocuments) && uploadedDocuments.length > 0 ? (
+                      uploadedDocuments.map((doc: any) => (
+                        <div key={doc.id} className="flex items-center justify-between border border-gray-200 rounded-lg p-4">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                              {doc.type === 'calendar' ? '📅' : '📋'}
+                            </div>
+                            <div>
+                              <h4 className="font-medium">{doc.filename}</h4>
+                              <p className="text-sm text-gray-600 capitalize">{doc.type}</p>
+                            </div>
+                          </div>
+                          <Badge variant={doc.processed ? "default" : "secondary"}>
+                            {doc.processed ? "Processed" : "Processing"}
+                          </Badge>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-8">
+                        <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                        <p className="text-gray-500">No materials uploaded yet</p>
+                        <Link href="/">
+                          <Button className="mt-4">Upload Materials</Button>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Forum Tab */}
+          {selectedTab === 'forum' && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Discussion Forum</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center py-8">
+                    <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-500">Forum features coming soon</p>
+                    <p className="text-sm text-gray-400 mt-2">Connect with classmates and discuss course topics</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Assessments Tab */}
+          {selectedTab === 'assessments' && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Assessments & Grades</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {subjectsLoading ? (
+                      <div className="animate-pulse space-y-2">
+                        {[1,2,3,4].map(i => <div key={i} className="h-16 bg-gray-200 rounded"></div>)}
+                      </div>
+                    ) : Array.isArray(subjects) ? (
+                      subjects.map((subject: any) => (
+                        <div key={subject.id} className="border border-gray-200 rounded-lg p-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h4 className="font-semibold">{subject.name}</h4>
+                              <p className="text-sm text-gray-600">Attendance: {subject.attendanceRate}%</p>
+                            </div>
+                            <div className="text-right">
+                              <Badge variant={subject.status === 'safe' ? 'default' : 'destructive'}>
+                                {subject.status === 'safe' ? 'On Track' : 'At Risk'}
+                              </Badge>
+                              <p className="text-sm text-gray-600 mt-1">
+                                {subject.attendedClasses}/{subject.totalClasses} classes
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-center text-gray-500 py-8">No assessment data available</p>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Settings Tab */}
+          {selectedTab === 'settings' && (
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Settings</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="font-semibold mb-4">Preferences</h4>
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span>Email Notifications</span>
+                          <Button variant="outline" size="sm">Configure</Button>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Theme</span>
+                          <Button variant="outline" size="sm">Light Mode</Button>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Language</span>
+                          <Button variant="outline" size="sm">English</Button>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-4">Account</h4>
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span>Change Password</span>
+                          <Button variant="outline" size="sm">Update</Button>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span>Export Data</span>
+                          <Button variant="outline" size="sm">Download</Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
     </div>
