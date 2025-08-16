@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import UploadZone from "@/components/ui/upload-zone";
-import { useToast } from "@/hooks/use-toast";
 
 // Elegant flowing lines that match the exact design from the image
 function FlowingLines({ sectionIndex = 0 }) {
@@ -181,19 +180,7 @@ export default function Home() {
     }
   };
 
-  const { toast } = useToast();
-  
-  const handleUploadSuccess = () => {
-    toast({
-      title: "Upload successful",
-      description: "Your document has been processed. Redirecting to dashboard...",
-    });
-    
-    // Navigate to dashboard after a brief delay
-    setTimeout(() => {
-      window.location.href = '/dashboard';
-    }, 2000);
-  };
+
 
   return (
     <div className="relative" data-testid="home-page">
@@ -576,25 +563,24 @@ export default function Home() {
                 title="Upload Calendar"
                 description="Upload your academic calendar to track important dates"
                 icon="calendar"
-                onUploadSuccess={handleUploadSuccess}
               />
               <UploadZone
                 type="timetable"
                 title="Upload Timetable"
                 description="Upload your class timetable for automatic scheduling"
                 icon="table"
-                onUploadSuccess={handleUploadSuccess}
               />
             </div>
             
             <div className="mt-8">
               <Button
-                onClick={() => window.location.href = '/dashboard'}
-                className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                disabled
+                className="bg-gray-400 cursor-not-allowed text-white px-8 py-3 rounded-lg text-lg font-semibold opacity-50"
                 data-testid="button-go-to-dashboard"
               >
                 Go to Dashboard
               </Button>
+              <p className="text-sm text-gray-600 mt-2">Upload documents first to access dashboard</p>
             </div>
           </div>
         </div>
