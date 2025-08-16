@@ -122,42 +122,64 @@ export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
   const [isVisible, setIsVisible] = useState([true, false, false, false, false, false]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
+      // Don't update visibility during manual navigation
+      if (isScrolling) return;
+      
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
       
       // Determine which section should be visible based on scroll
-      if (scrollPosition < windowHeight * 0.5) {
-        setCurrentSection(0);
-        setIsVisible([true, false, false, false, false, false]);
-      } else if (scrollPosition < windowHeight * 1.5) {
-        setCurrentSection(1);
-        setIsVisible([false, true, false, false, false, false]);
-      } else if (scrollPosition < windowHeight * 2.5) {
-        setCurrentSection(2);
-        setIsVisible([false, false, true, false, false, false]);
-      } else if (scrollPosition < windowHeight * 3.5) {
-        setCurrentSection(3);
-        setIsVisible([false, false, false, true, false, false]);
-      } else if (scrollPosition < windowHeight * 4.2) {
-        setCurrentSection(4);
-        setIsVisible([false, false, false, false, true, false]);
+      let newSection = currentSection;
+      let newVisibility = [...isVisible];
+      
+      if (scrollPosition < windowHeight * 0.8) {
+        newSection = 0;
+        newVisibility = [true, false, false, false, false, false];
+      } else if (scrollPosition < windowHeight * 1.8) {
+        newSection = 1;
+        newVisibility = [false, true, false, false, false, false];
+      } else if (scrollPosition < windowHeight * 2.8) {
+        newSection = 2;
+        newVisibility = [false, false, true, false, false, false];
+      } else if (scrollPosition < windowHeight * 3.8) {
+        newSection = 3;
+        newVisibility = [false, false, false, true, false, false];
+      } else if (scrollPosition < windowHeight * 4.8) {
+        newSection = 4;
+        newVisibility = [false, false, false, false, true, false];
       } else {
-        setCurrentSection(5);
-        setIsVisible([false, false, false, false, false, true]);
+        newSection = 5;
+        newVisibility = [false, false, false, false, false, true];
+      }
+      
+      if (newSection !== currentSection) {
+        setCurrentSection(newSection);
+        setIsVisible(newVisibility);
       }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [currentSection, isVisible, isScrolling]);
 
   const scrollToSection = (index: number) => {
     const element = sectionsRef.current[index];
     if (element) {
+      // Update visibility state immediately when navigating
+      const newVisibility = [false, false, false, false, false, false];
+      newVisibility[index] = true;
+      setIsVisible(newVisibility);
+      setCurrentSection(index);
+      
+      // Prevent automatic scroll detection for a moment
+      setIsScrolling(true);
+      setTimeout(() => setIsScrolling(false), 1500);
+      
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
