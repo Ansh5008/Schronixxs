@@ -103,24 +103,48 @@ export default function Home() {
 
   return (
     <div className="relative" data-testid="home-page">
-      {/* Section 1: Hero */}
+      {/* Section 1: Minimal Hero - Exact match to design */}
       <div 
         ref={el => sectionsRef.current[0] = el}
-        className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden flex items-center justify-center"
+        className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-200 to-gray-300 relative overflow-hidden flex items-center justify-center"
         data-testid="hero-section"
       >
         <FlowingLines />
         
+        {/* Completely minimal - just the flowing lines background */}
+        <div className="relative z-10 w-full h-full flex items-center justify-center">
+          {/* Invisible click area to proceed to next section */}
+          <div 
+            className="w-full h-full cursor-pointer flex items-center justify-center"
+            onClick={() => scrollToSection(1)}
+            data-testid="click-to-continue"
+          >
+            {/* Very subtle scroll hint */}
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-pulse opacity-30">
+              <ChevronDown className="h-8 w-8 text-gray-600" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Section 2: Schronix Title */}
+      <div 
+        ref={el => sectionsRef.current[1] = el}
+        className="min-h-screen bg-gradient-to-br from-gray-200 to-gray-300 relative overflow-hidden flex items-center justify-center"
+        data-testid="schronix-section"
+      >
+        <FlowingLines />
+        
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <div className={`transition-all duration-1000 ${isVisible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`transition-all duration-1000 ${isVisible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h1 
-              className="text-6xl md:text-8xl font-bold text-gray-800 mb-6 animate-fade-in-up"
+              className="text-8xl md:text-9xl font-bold text-white mb-8 animate-fade-in-up"
               data-testid="text-schronix-title"
             >
               Schronix
             </h1>
             <p 
-              className="text-2xl md:text-4xl font-light text-gray-600 mb-12 animate-fade-in-up delay-300"
+              className="text-3xl md:text-4xl font-light text-white/90 mb-12 animate-fade-in-up delay-300"
               data-testid="text-tagline"
             >
               Plan Smarter Skip Smarter
@@ -132,9 +156,9 @@ export default function Home() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => scrollToSection(1)}
-              className="text-gray-500 hover:text-gray-700"
-              data-testid="button-scroll-down"
+              onClick={() => scrollToSection(2)}
+              className="text-white/70 hover:text-white"
+              data-testid="button-scroll-to-team"
             >
               <ChevronDown className="h-6 w-6" />
             </Button>
@@ -142,16 +166,16 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Section 2: Team */}
+      {/* Section 3: Team */}
       <div 
-        ref={el => sectionsRef.current[1] = el}
-        className="min-h-screen bg-gradient-to-br from-gray-200 to-gray-300 relative overflow-hidden flex items-center justify-center"
+        ref={el => sectionsRef.current[2] = el}
+        className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden flex items-center justify-center"
         data-testid="team-section"
       >
         <FlowingLines />
         
         <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
-          <div className={`transition-all duration-1000 ${isVisible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className={`transition-all duration-1000 ${isVisible[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 
               className="text-4xl md:text-6xl font-bold text-gray-800 mb-16 animate-fade-in-up"
               data-testid="text-team-title"
@@ -190,56 +214,49 @@ export default function Home() {
                 </Card>
               ))}
             </div>
-          </div>
-          
-          {/* Scroll indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            
+            {/* Continue to Upload button */}
             <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => scrollToSection(2)}
-              className="text-gray-500 hover:text-gray-700"
-              data-testid="button-scroll-to-upload"
+              onClick={() => {
+                // Add fourth section or go to upload
+                window.location.href = '/dashboard';
+              }}
+              className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl animate-fade-in-up delay-700 hover:scale-105"
+              data-testid="button-continue-to-upload"
             >
-              <ChevronDown className="h-6 w-6" />
+              Continue to Upload
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Section 3: Upload */}
-      <div 
-        ref={el => sectionsRef.current[2] = el}
-        className="min-h-screen bg-gradient-to-br from-gray-300 to-gray-400 relative overflow-hidden flex items-center justify-center"
-        data-testid="upload-section"
-      >
+      {/* Section 4: Upload */}
+      <div className="min-h-screen bg-white relative overflow-hidden flex items-center justify-center" data-testid="upload-section">
         <FlowingLines />
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <div className={`transition-all duration-1000 ${isVisible[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h2 
-              className="text-4xl md:text-6xl font-bold text-gray-800 mb-8 animate-fade-in-up"
-              data-testid="text-upload-title"
-            >
-              Upload PDFs to Begin
-            </h2>
-            
-            <p 
-              className="text-xl text-gray-600 mb-12 animate-fade-in-up delay-300"
-              data-testid="text-upload-description"
-            >
-              Upload your academic calendars and timetables to start smart attendance tracking
-            </p>
-            
-            <Button
-              onClick={handleUploadClick}
-              className="bg-gray-800 hover:bg-gray-900 text-white px-12 py-6 rounded-lg text-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl animate-fade-in-up delay-500 hover:scale-105"
-              data-testid="button-upload"
-            >
-              <Upload className="mr-3 h-6 w-6" />
-              Upload
-            </Button>
-          </div>
+          <h2 
+            className="text-4xl md:text-6xl font-bold text-gray-800 mb-8 animate-fade-in-up"
+            data-testid="text-upload-title"
+          >
+            Upload PDFs to Begin
+          </h2>
+          
+          <p 
+            className="text-xl text-gray-600 mb-12 animate-fade-in-up delay-300"
+            data-testid="text-upload-description"
+          >
+            Upload your academic calendars and timetables to start smart attendance tracking
+          </p>
+          
+          <Button
+            onClick={handleUploadClick}
+            className="bg-gray-800 hover:bg-gray-900 text-white px-12 py-6 rounded-lg text-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl animate-fade-in-up delay-500 hover:scale-105"
+            data-testid="button-upload"
+          >
+            <Upload className="mr-3 h-6 w-6" />
+            Upload
+          </Button>
         </div>
       </div>
     </div>
