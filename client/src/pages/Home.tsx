@@ -4,55 +4,75 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, Upload, ChevronDown } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
-// Flowing lines component to match the exact design from the image
+// Modern minimalistic flowing lines exactly matching the provided design
 function FlowingLines() {
   return (
     <div className="absolute inset-0 overflow-hidden">
+      {/* 2030 text in top-right corner */}
+      <div className="absolute top-8 right-8 text-white text-sm font-light opacity-30 z-20">
+        2030
+      </div>
+      
       <svg
-        className="absolute bottom-0 right-0 w-full h-full"
-        viewBox="0 0 1400 900"
+        className="absolute inset-0 w-full h-full"
+        viewBox="0 0 1920 1080"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMaxYMax slice"
+        preserveAspectRatio="xMidYMid slice"
       >
-        {/* Create the exact flowing curves from the design */}
-        {Array.from({ length: 30 }, (_, i) => {
-          const offset = i * 8;
-          const curvature = 300 + i * 15;
+        {/* Create evenly spaced parallel wave-like contours from bottom-left rising to right */}
+        {Array.from({ length: 25 }, (_, i) => {
+          const spacing = i * 12; // Even spacing between lines
+          const startY = 1080 - (i * 8); // Start from bottom, gradually moving up
+          const controlY1 = 1080 - (i * 15) - 200; // First control point
+          const controlY2 = 1080 - (i * 20) - 400; // Second control point
+          const endY = 1080 - (i * 25) - 600; // End point higher up
+          
           return (
             <path
               key={i}
-              d={`M ${1400 - offset} 900 Q ${1200 - offset} ${700 - i * 12} ${1000 - offset} ${500 - i * 8} Q ${800 - offset} ${300 - i * 6} ${600 - offset} ${200 - i * 4} Q ${400 - offset} ${100 - i * 3} ${200 - offset} ${50 - i * 2}`}
-              stroke="rgba(0, 0, 0, 0.15)"
-              strokeWidth="1.5"
+              d={`M 0 ${startY} 
+                  Q 480 ${controlY1} 960 ${controlY2} 
+                  T 1920 ${endY}`}
+              stroke="rgba(0, 0, 0, 0.8)"
+              strokeWidth="1.2"
               fill="none"
               className="animate-draw"
               style={{ 
-                strokeDasharray: 2000,
-                strokeDashoffset: 2000,
-                animationDelay: `${i * 0.05}s`,
-                animationDuration: '3s'
+                strokeDasharray: 3000,
+                strokeDashoffset: 3000,
+                animationDelay: `${i * 0.1}s`,
+                animationDuration: '4s',
+                animationFillMode: 'forwards'
               }}
             />
           );
         })}
         
-        {/* Additional curved lines for depth */}
-        {Array.from({ length: 25 }, (_, i) => {
-          const offset = i * 12;
+        {/* Additional finer lines for depth and detail */}
+        {Array.from({ length: 20 }, (_, i) => {
+          const spacing = i * 15 + 6; // Offset pattern
+          const startY = 1080 - (i * 10) - 10;
+          const controlY1 = 1080 - (i * 18) - 180;
+          const controlY2 = 1080 - (i * 22) - 380;
+          const endY = 1080 - (i * 28) - 580;
+          
           return (
             <path
-              key={`secondary-${i}`}
-              d={`M ${1350 - offset} 900 Q ${1150 - offset} ${650 - i * 10} ${950 - offset} ${450 - i * 8} Q ${750 - offset} ${250 - i * 6} ${550 - offset} ${150 - i * 4}`}
-              stroke="rgba(0, 0, 0, 0.08)"
-              strokeWidth="1"
+              key={`fine-${i}`}
+              d={`M 0 ${startY} 
+                  Q 500 ${controlY1} 1000 ${controlY2} 
+                  T 1920 ${endY}`}
+              stroke="rgba(0, 0, 0, 0.4)"
+              strokeWidth="0.8"
               fill="none"
               className="animate-draw"
               style={{ 
-                strokeDasharray: 1500,
-                strokeDashoffset: 1500,
-                animationDelay: `${i * 0.08}s`,
-                animationDuration: '4s'
+                strokeDasharray: 2500,
+                strokeDashoffset: 2500,
+                animationDelay: `${i * 0.12}s`,
+                animationDuration: '5s',
+                animationFillMode: 'forwards'
               }}
             />
           );
@@ -106,7 +126,7 @@ export default function Home() {
       {/* Section 1: Minimal Hero - Exact match to design */}
       <div 
         ref={el => sectionsRef.current[0] = el}
-        className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-250 to-gray-300 relative overflow-hidden flex items-center justify-center"
+        className="min-h-screen bg-gradient-to-r from-gray-300 to-white relative overflow-hidden flex items-center justify-center"
         data-testid="hero-section"
       >
         <FlowingLines />
@@ -130,7 +150,7 @@ export default function Home() {
       {/* Section 2: Schronix Title */}
       <div 
         ref={el => sectionsRef.current[1] = el}
-        className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-250 to-gray-300 relative overflow-hidden flex items-center justify-center"
+        className="min-h-screen bg-gradient-to-r from-gray-300 to-white relative overflow-hidden flex items-center justify-center"
         data-testid="schronix-section"
       >
         <FlowingLines />
@@ -169,7 +189,7 @@ export default function Home() {
       {/* Section 3: Team */}
       <div 
         ref={el => sectionsRef.current[2] = el}
-        className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-250 to-gray-300 relative overflow-hidden flex items-center justify-center"
+        className="min-h-screen bg-gradient-to-r from-gray-300 to-white relative overflow-hidden flex items-center justify-center"
         data-testid="team-section"
       >
         <FlowingLines />
@@ -231,7 +251,7 @@ export default function Home() {
       </div>
 
       {/* Section 4: Upload */}
-      <div className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-250 to-gray-300 relative overflow-hidden flex items-center justify-center" data-testid="upload-section">
+      <div className="min-h-screen bg-gradient-to-r from-gray-300 to-white relative overflow-hidden flex items-center justify-center" data-testid="upload-section">
         <FlowingLines />
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
