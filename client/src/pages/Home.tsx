@@ -6,71 +6,122 @@ import { Card } from "@/components/ui/card";
 import UploadZone from "@/components/ui/upload-zone";
 import { useToast } from "@/hooks/use-toast";
 
-// Exact flowing lines pattern matching the provided image
-function FlowingLines() {
+// Continuous flowing lines that connect across all sections
+function FlowingLines({ sectionIndex = 0 }) {
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* 2030 text in top-right corner - subtle white */}
-      <div className="absolute top-8 right-8 text-black text-sm font-light opacity-20 z-20">
-        2030
-      </div>
+      {/* 2030 text in top-right corner - only on first section */}
+      {sectionIndex === 0 && (
+        <div className="absolute top-8 right-8 text-black text-sm font-light opacity-20 z-20">
+          2030
+        </div>
+      )}
       
       <svg
-        className="absolute bottom-0 right-0 w-full h-full"
+        className="absolute inset-0 w-full h-full"
         viewBox="0 0 1920 1080"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMaxYMax slice"
+        preserveAspectRatio="xMidYMid slice"
       >
-        {/* Bottom flowing curves - exactly like the image */}
-        {Array.from({ length: 15 }, (_, i) => {
-          const yOffset = i * 8;
+        <defs>
+          {/* Gradient for animated effect */}
+          <linearGradient id={`flowGradient-${sectionIndex}`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(0, 0, 0, 0.8)" />
+            <stop offset="50%" stopColor="rgba(0, 0, 0, 0.4)" />
+            <stop offset="100%" stopColor="rgba(0, 0, 0, 0.2)" />
+          </linearGradient>
+          
+          {/* Animation definition */}
+          <animate
+            id={`pathAnimation-${sectionIndex}`}
+            attributeName="stroke-dashoffset"
+            values="0;-100;0"
+            dur="8s"
+            repeatCount="indefinite"
+          />
+        </defs>
+
+        {/* Main flowing path that connects across sections */}
+        <path
+          d={`
+            M 0 ${200 + sectionIndex * 300}
+            C 300 ${150 + sectionIndex * 300} 600 ${100 + sectionIndex * 300} 900 ${200 + sectionIndex * 300}
+            C 1200 ${300 + sectionIndex * 300} 1500 ${250 + sectionIndex * 300} 1920 ${400 + sectionIndex * 300}
+            
+            M 1920 ${400 + sectionIndex * 300}
+            C 1600 ${500 + sectionIndex * 300} 1300 ${450 + sectionIndex * 300} 1000 ${600 + sectionIndex * 300}
+            C 700 ${750 + sectionIndex * 300} 400 ${700 + sectionIndex * 300} 0 ${900 + sectionIndex * 300}
+          `}
+          stroke={`url(#flowGradient-${sectionIndex})`}
+          strokeWidth="2"
+          fill="none"
+          strokeDasharray="20 10"
+          className="animate-pulse"
+        >
+          <animate
+            attributeName="stroke-dashoffset"
+            values="0;-30;0"
+            dur="4s"
+            repeatCount="indefinite"
+          />
+        </path>
+        
+        {/* Secondary flowing lines */}
+        {Array.from({ length: 8 }, (_, i) => {
+          const yStart = 100 + sectionIndex * 250 + i * 40;
+          const amplitude = 150 + i * 20;
           return (
             <path
-              key={`bottom-${i}`}
-              d={`M 0 ${1080 - yOffset} 
-                  C 200 ${1050 - yOffset} 400 ${1020 - yOffset} 600 ${1000 - yOffset}
-                  C 800 ${980 - yOffset} 1000 ${970 - yOffset} 1200 ${960 - yOffset}
-                  C 1400 ${950 - yOffset} 1600 ${940 - yOffset} 1920 ${930 - yOffset}`}
-              stroke="rgba(0, 0, 0, 0.7)"
-              strokeWidth="1.5"
+              key={`flow-${sectionIndex}-${i}`}
+              d={`
+                M ${-100 + i * 50} ${yStart}
+                Q ${400 + i * 100} ${yStart - amplitude} ${800 + i * 50} ${yStart + 100}
+                Q ${1200 + i * 80} ${yStart + amplitude + 150} ${1920 + i * 30} ${yStart + 200}
+              `}
+              stroke={`rgba(0, 0, 0, ${0.3 - i * 0.03})`}
+              strokeWidth={`${1.5 - i * 0.1}`}
               fill="none"
-            />
+              strokeDasharray={`${15 + i * 5} ${5 + i * 2}`}
+              className="animate-pulse"
+              style={{
+                animationDelay: `${i * 0.5}s`,
+                animationDuration: `${6 + i}s`
+              }}
+            >
+              <animate
+                attributeName="stroke-dashoffset"
+                values="0;-50;0"
+                dur={`${5 + i}s`}
+                repeatCount="indefinite"
+                begin={`${i * 0.3}s`}
+              />
+            </path>
           );
         })}
         
-        {/* Right side rising curves - exactly like the image */}
-        {Array.from({ length: 25 }, (_, i) => {
-          const spacing = i * 6;
-          const curvature = 200 + i * 8;
-          return (
-            <path
-              key={`right-${i}`}
-              d={`M ${1920 - spacing} 1080
-                  C ${1800 - spacing} ${900 - i * 12} ${1700 - spacing} ${700 - i * 15} ${1600 - spacing} ${500 - i * 18}
-                  C ${1500 - spacing} ${300 - i * 20} ${1400 - spacing} ${200 - i * 22} ${1300 - spacing} ${100 - i * 24}`}
-              stroke="rgba(0, 0, 0, 0.6)"
-              strokeWidth="1.2"
-              fill="none"
+        {/* Connecting vertical flow between sections */}
+        {sectionIndex < 3 && (
+          <path
+            d={`
+              M 1920 ${800 + sectionIndex * 300}
+              C 1800 ${900 + sectionIndex * 300} 1700 ${1000 + sectionIndex * 300} 1600 ${1080 + sectionIndex * 300}
+              L 1600 ${1080 + sectionIndex * 300 + 200}
+              C 1500 ${1200 + sectionIndex * 300} 1400 ${1250 + sectionIndex * 300} 1300 ${1300 + sectionIndex * 300}
+            `}
+            stroke="rgba(0, 0, 0, 0.4)"
+            strokeWidth="1.5"
+            fill="none"
+            strokeDasharray="10 5"
+          >
+            <animate
+              attributeName="stroke-dashoffset"
+              values="0;-15;0"
+              dur="3s"
+              repeatCount="indefinite"
             />
-          );
-        })}
-        
-        {/* Additional curved lines for the exact pattern */}
-        {Array.from({ length: 20 }, (_, i) => {
-          const offset = i * 10;
-          return (
-            <path
-              key={`curve-${i}`}
-              d={`M ${800 + offset} 1080
-                  Q ${1000 + offset} ${800 - i * 10} ${1200 + offset} ${600 - i * 12}
-                  Q ${1400 + offset} ${400 - i * 14} ${1600 + offset} ${200 - i * 16}`}
-              stroke="rgba(0, 0, 0, 0.5)"
-              strokeWidth="1"
-              fill="none"
-            />
-          );
-        })}
+          </path>
+        )}
       </svg>
     </div>
   );
@@ -132,7 +183,7 @@ export default function Home() {
         className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
         data-testid="hero-section"
       >
-        <FlowingLines />
+        <FlowingLines sectionIndex={0} />
         
         {/* Completely minimal - just the flowing lines background */}
         <div className="relative z-10 w-full h-full flex items-center justify-center">
@@ -156,7 +207,7 @@ export default function Home() {
         className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
         data-testid="schronix-section"
       >
-        <FlowingLines />
+        <FlowingLines sectionIndex={1} />
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <div className={`transition-all duration-1000 ${isVisible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -195,7 +246,7 @@ export default function Home() {
         className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center"
         data-testid="team-section"
       >
-        <FlowingLines />
+        <FlowingLines sectionIndex={2} />
         
         <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
           <div className={`transition-all duration-1000 ${isVisible[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -255,7 +306,7 @@ export default function Home() {
 
       {/* Section 4: Upload */}
       <div className="min-h-screen bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 relative overflow-hidden flex items-center justify-center" data-testid="upload-section">
-        <FlowingLines />
+        <FlowingLines sectionIndex={3} />
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <h2 
