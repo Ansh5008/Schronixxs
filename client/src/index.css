@@ -41,21 +41,21 @@
   --font-mono: Menlo, monospace;
   --radius: 1.3rem;
 
-  /* Schronix Brand Colors - Updated to match design */
-  --schronix-primary: hsl(222 84% 63%);
-  --schronix-secondary: hsl(222 84% 55%);
-  --schronix-accent: hsl(160 84% 39%);
+  /* Schronix Brand Colors - Modern Minimal Design */
+  --schronix-primary: hsl(240 6% 90%);
+  --schronix-secondary: hsl(240 4% 80%);
+  --schronix-accent: hsl(240 8% 70%);
   --schronix-warning: hsl(25 95% 53%);
-  --schronix-grey-50: hsl(0 0% 98%);
-  --schronix-grey-100: hsl(0 0% 96%);
-  --schronix-grey-200: hsl(0 0% 89%);
-  --schronix-grey-300: hsl(0 0% 83%);
-  --schronix-grey-400: hsl(0 0% 64%);
-  --schronix-grey-500: hsl(0 0% 45%);
-  --schronix-grey-600: hsl(0 0% 32%);
-  --schronix-grey-700: hsl(0 0% 25%);
-  --schronix-grey-800: hsl(0 0% 15%);
-  --schronix-grey-900: hsl(0 0% 9%);
+  --schronix-grey-50: hsl(240 6% 98%);
+  --schronix-grey-100: hsl(240 5% 96%);
+  --schronix-grey-200: hsl(240 4% 89%);
+  --schronix-grey-300: hsl(240 4% 83%);
+  --schronix-grey-400: hsl(240 3% 64%);
+  --schronix-grey-500: hsl(240 3% 45%);
+  --schronix-grey-600: hsl(240 4% 32%);
+  --schronix-grey-700: hsl(240 5% 25%);
+  --schronix-grey-800: hsl(240 6% 15%);
+  --schronix-grey-900: hsl(240 8% 9%);
 
   --shadow-2xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00);
   --shadow-xs: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0.00);

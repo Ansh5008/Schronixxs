@@ -1,211 +1,226 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import FlowingLines from "@/components/ui/flowing-lines";
-import TeamSection from "@/components/TeamSection";
+import { ArrowDown, Upload, ChevronDown } from "lucide-react";
+import { Card } from "@/components/ui/card";
+
+// Flowing lines component to match the design
+function FlowingLines() {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      <svg
+        className="absolute bottom-0 right-0 w-full h-full"
+        viewBox="0 0 1200 800"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style={{ stopColor: '#374151', stopOpacity: 0.1 }} />
+            <stop offset="100%" style={{ stopColor: '#1f2937', stopOpacity: 0.3 }} />
+          </linearGradient>
+        </defs>
+        
+        {/* Flowing curved lines matching the design */}
+        {Array.from({ length: 20 }, (_, i) => (
+          <path
+            key={i}
+            d={`M ${1200 - i * 20} 800 Q ${1000 - i * 15} ${600 - i * 8} ${800 - i * 25} ${400 - i * 12} T ${400 - i * 30} ${200 - i * 15}`}
+            stroke="url(#lineGradient)"
+            strokeWidth="1"
+            fill="none"
+            className="animate-draw"
+            style={{ 
+              strokeDasharray: 1000,
+              strokeDashoffset: 1000,
+              animationDelay: `${i * 0.1}s`
+            }}
+          />
+        ))}
+      </svg>
+    </div>
+  );
+}
 
 export default function Home() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const totalSlides = 3;
-
-  const nextSlide = () => {
-    if (currentSlide < totalSlides - 1) {
-      setCurrentSlide(currentSlide + 1);
-    }
-  };
-
-  const prevSlide = () => {
-    if (currentSlide > 0) {
-      setCurrentSlide(currentSlide - 1);
-    }
-  };
+  const [currentSection, setCurrentSection] = useState(0);
+  const [isVisible, setIsVisible] = useState([true, false, false]);
+  const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight' || e.key === ' ') {
-        e.preventDefault();
-        nextSlide();
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        prevSlide();
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      
+      // Determine which section should be visible based on scroll
+      if (scrollPosition < windowHeight * 0.5) {
+        setCurrentSection(0);
+        setIsVisible([true, false, false]);
+      } else if (scrollPosition < windowHeight * 1.5) {
+        setCurrentSection(1);
+        setIsVisible([false, true, false]);
+      } else {
+        setCurrentSection(2);
+        setIsVisible([false, false, true]);
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [currentSlide]);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (index: number) => {
+    const element = sectionsRef.current[index];
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleUploadClick = () => {
+    // Navigate to dashboard when upload is clicked
+    window.location.href = '/dashboard';
+  };
 
   return (
-    <div className="relative min-h-screen overflow-hidden" data-testid="home-page">
-      
-      {/* Slide 1: Hero/Landing */}
+    <div className="relative" data-testid="home-page">
+      {/* Section 1: Hero */}
       <div 
-        className={`absolute inset-0 transition-all duration-800 ease-out ${
-          currentSlide === 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-        }`}
-        data-testid="hero-slide"
+        ref={el => sectionsRef.current[0] = el}
+        className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden flex items-center justify-center"
+        data-testid="hero-section"
       >
-        <div className="min-h-screen bg-gradient-to-br from-schronix-grey-300 to-schronix-grey-400 relative overflow-hidden">
-          <FlowingLines />
-          
-          <div className="relative z-10 container mx-auto px-6 py-20">
-            <div className="flex flex-col items-center justify-center min-h-screen text-center">
-              {/* Logo */}
-              <div className="mb-8 animate-float">
-                <h1 className="text-6xl md:text-8xl font-bold text-white mb-4 animate-fade-in-up" data-testid="text-schronix-title">
-                  Schronix
-                </h1>
-              </div>
-              
-              {/* Tagline */}
-              <div className="mb-12">
-                <h2 className="text-2xl md:text-4xl font-light text-white/95 mb-6 animate-slide-up" style={{ animationDelay: '0.3s' }} data-testid="text-tagline">
-                  Plan Smarter Skip Smarter
-                </h2>
-                <p className="text-lg md:text-xl text-white/85 max-w-2xl animate-fade-in-up" style={{ animationDelay: '0.6s' }} data-testid="text-description">
-                  Intelligent attendance tracking and academic planning for students who value strategic learning
-                </p>
-              </div>
-              
-              {/* CTA Button */}
-              <Button 
-                onClick={nextSlide}
-                className="bg-white text-schronix-grey-800 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-schronix-grey-100 transition-all duration-300 shadow-lg hover:shadow-xl animate-bounce-in animate-ripple"
-                style={{ animationDelay: '0.8s' }}
-                data-testid="button-get-started"
-              >
-                Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              
-              {/* Scroll Indicator */}
-              <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-                <div className="w-6 h-10 border-2 border-white/60 rounded-full flex justify-center">
-                  <div className="w-1 h-3 bg-white/80 rounded-full mt-2 animate-bounce"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Slide 2: Team Information */}
-      <div 
-        className={`absolute inset-0 transition-all duration-800 ease-out ${
-          currentSlide === 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-        }`}
-        data-testid="team-slide"
-      >
-        <div className="min-h-screen bg-white relative overflow-hidden">
-          <TeamSection isActive={currentSlide === 1} />
-          
-          <div className="text-center mt-16 pb-20">
-            <Button 
-              onClick={nextSlide}
-              className="bg-schronix-primary text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-schronix-secondary transition-all duration-300 shadow-lg hover:shadow-xl animate-pulse-glow animate-scale-in"
-              style={{ animationDelay: '0.5s' }}
-              data-testid="button-view-dashboard"
+        <FlowingLines />
+        
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
+          <div className={`transition-all duration-1000 ${isVisible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h1 
+              className="text-6xl md:text-8xl font-bold text-gray-800 mb-6 animate-fade-in-up"
+              data-testid="text-schronix-title"
             >
-              View Dashboard
-              <ArrowRight className="ml-2 h-4 w-4" />
+              Schronix
+            </h1>
+            <p 
+              className="text-2xl md:text-4xl font-light text-gray-600 mb-12 animate-fade-in-up delay-300"
+              data-testid="text-tagline"
+            >
+              Plan Smarter Skip Smarter
+            </p>
+          </div>
+          
+          {/* Scroll indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => scrollToSection(1)}
+              className="text-gray-500 hover:text-gray-700"
+              data-testid="button-scroll-down"
+            >
+              <ChevronDown className="h-6 w-6" />
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Slide 3: Dashboard Preview */}
+      {/* Section 2: Team */}
       <div 
-        className={`absolute inset-0 transition-all duration-800 ease-out ${
-          currentSlide === 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-        }`}
-        data-testid="dashboard-preview-slide"
+        ref={el => sectionsRef.current[1] = el}
+        className="min-h-screen bg-gradient-to-br from-gray-200 to-gray-300 relative overflow-hidden flex items-center justify-center"
+        data-testid="team-section"
       >
-        <div className="min-h-screen bg-white flex flex-col items-center justify-center">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-schronix-grey-800 mb-6" data-testid="text-dashboard-preview-title">
-              Experience the Dashboard
+        <FlowingLines />
+        
+        <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
+          <div className={`transition-all duration-1000 ${isVisible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 
+              className="text-4xl md:text-6xl font-bold text-gray-800 mb-16 animate-fade-in-up"
+              data-testid="text-team-title"
+            >
+              Our Team
             </h2>
-            <p className="text-xl text-schronix-grey-600 max-w-2xl mx-auto mb-8" data-testid="text-dashboard-preview-description">
-              Upload your academic PDFs and let Schronix analyze your schedule to provide intelligent skip recommendations
-            </p>
-            <Link href="/dashboard">
-              <Button 
-                className="bg-schronix-primary text-white px-12 py-6 rounded-lg font-semibold text-xl hover:bg-schronix-secondary transition-all duration-300 shadow-lg hover:shadow-xl"
-                data-testid="button-enter-dashboard"
-              >
-                Enter Dashboard
-                <ArrowRight className="ml-3 h-5 w-5" />
-              </Button>
-            </Link>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+              {/* Team Leader */}
+              <Card className="p-8 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-slide-in-left delay-200" data-testid="card-team-leader">
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4 animate-float"></div>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2" data-testid="text-leader-name">Team Leader</h3>
+                  <p className="text-gray-600" data-testid="text-leader-role">Project Manager</p>
+                </div>
+              </Card>
+
+              {/* Team Members */}
+              {[
+                { name: "Developer 1", role: "Frontend Developer" },
+                { name: "Developer 2", role: "Backend Developer" },
+                { name: "Designer", role: "UI/UX Designer" },
+                { name: "Analyst", role: "Data Analyst" },
+              ].map((member, index) => (
+                <Card 
+                  key={member.name}
+                  className="p-8 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-slide-in-right"
+                  style={{ animationDelay: `${(index + 1) * 0.2}s` }}
+                  data-testid={`card-team-member-${index}`}
+                >
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-4 animate-float" style={{ animationDelay: `${index * 0.5}s` }}></div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2" data-testid={`text-member-name-${index}`}>{member.name}</h3>
+                    <p className="text-gray-600" data-testid={`text-member-role-${index}`}>{member.role}</p>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </div>
           
-          {/* Preview Cards */}
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto px-6">
-            <div className="bg-white p-6 rounded-xl shadow-lg border hover:shadow-xl transition-shadow" data-testid="card-upload-feature">
-              <div className="w-12 h-12 bg-schronix-primary/10 rounded-full flex items-center justify-center mb-4">
-                <i className="fas fa-upload text-schronix-primary text-xl"></i>
-              </div>
-              <h3 className="text-lg font-semibold text-schronix-grey-800 mb-2">PDF Upload</h3>
-              <p className="text-schronix-grey-600 text-sm">Upload academic calendars and timetables</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-lg border hover:shadow-xl transition-shadow" data-testid="card-analytics-feature">
-              <div className="w-12 h-12 bg-schronix-accent/10 rounded-full flex items-center justify-center mb-4">
-                <i className="fas fa-chart-line text-schronix-accent text-xl"></i>
-              </div>
-              <h3 className="text-lg font-semibold text-schronix-grey-800 mb-2">Smart Analytics</h3>
-              <p className="text-schronix-grey-600 text-sm">Get insights on attendance and performance</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-lg border hover:shadow-xl transition-shadow" data-testid="card-strategy-feature">
-              <div className="w-12 h-12 bg-schronix-warning/10 rounded-full flex items-center justify-center mb-4">
-                <i className="fas fa-calculator text-schronix-warning text-xl"></i>
-              </div>
-              <h3 className="text-lg font-semibold text-schronix-grey-800 mb-2">Skip Strategy</h3>
-              <p className="text-schronix-grey-600 text-sm">Calculate optimal class skip recommendations</p>
-            </div>
+          {/* Scroll indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => scrollToSection(2)}
+              className="text-gray-500 hover:text-gray-700"
+              data-testid="button-scroll-to-upload"
+            >
+              <ChevronDown className="h-6 w-6" />
+            </Button>
           </div>
         </div>
       </div>
 
-      {/* Navigation Controls */}
-      <div className="fixed bottom-6 right-6 flex space-x-3 z-50">
-        {currentSlide > 0 && (
-          <Button
-            onClick={prevSlide}
-            variant="outline"
-            size="sm"
-            className="bg-white text-schronix-primary border-schronix-primary hover:bg-schronix-primary hover:text-white"
-            data-testid="button-prev-slide"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-        )}
-        {currentSlide < totalSlides - 1 && (
-          <Button
-            onClick={nextSlide}
-            size="sm"
-            className="bg-schronix-primary text-white hover:bg-schronix-secondary"
-            data-testid="button-next-slide"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        )}
-      </div>
-
-      {/* Slide Indicators */}
-      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-50">
-        {[0, 1, 2].map((index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
-              currentSlide === index ? 'bg-schronix-primary' : 'bg-schronix-grey-300'
-            }`}
-            data-testid={`button-slide-indicator-${index}`}
-          />
-        ))}
+      {/* Section 3: Upload */}
+      <div 
+        ref={el => sectionsRef.current[2] = el}
+        className="min-h-screen bg-gradient-to-br from-gray-300 to-gray-400 relative overflow-hidden flex items-center justify-center"
+        data-testid="upload-section"
+      >
+        <FlowingLines />
+        
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
+          <div className={`transition-all duration-1000 ${isVisible[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 
+              className="text-4xl md:text-6xl font-bold text-gray-800 mb-8 animate-fade-in-up"
+              data-testid="text-upload-title"
+            >
+              Upload PDFs to Begin
+            </h2>
+            
+            <p 
+              className="text-xl text-gray-600 mb-12 animate-fade-in-up delay-300"
+              data-testid="text-upload-description"
+            >
+              Upload your academic calendars and timetables to start smart attendance tracking
+            </p>
+            
+            <Button
+              onClick={handleUploadClick}
+              className="bg-gray-800 hover:bg-gray-900 text-white px-12 py-6 rounded-lg text-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl animate-fade-in-up delay-500 hover:scale-105"
+              data-testid="button-upload"
+            >
+              <Upload className="mr-3 h-6 w-6" />
+              Upload
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );

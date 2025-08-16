@@ -7,6 +7,8 @@ Schronix is a comprehensive student attendance management system built as a full
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Design preference: Modern minimal design with flowing curves and beautiful animations.
+Landing page structure: Multi-section scrollable page with hero, team section, and upload functionality leading to dashboard.
 
 ## System Architecture
 
