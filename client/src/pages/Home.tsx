@@ -106,7 +106,7 @@ export default function Home() {
       {/* Section 1: Minimal Hero - Exact match to design */}
       <div 
         ref={el => sectionsRef.current[0] = el}
-        className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-200 to-gray-300 relative overflow-hidden flex items-center justify-center"
+        className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-250 to-gray-300 relative overflow-hidden flex items-center justify-center"
         data-testid="hero-section"
       >
         <FlowingLines />
@@ -130,7 +130,7 @@ export default function Home() {
       {/* Section 2: Schronix Title */}
       <div 
         ref={el => sectionsRef.current[1] = el}
-        className="min-h-screen bg-gradient-to-br from-gray-200 to-gray-300 relative overflow-hidden flex items-center justify-center"
+        className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-250 to-gray-300 relative overflow-hidden flex items-center justify-center"
         data-testid="schronix-section"
       >
         <FlowingLines />
@@ -138,13 +138,13 @@ export default function Home() {
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <div className={`transition-all duration-1000 ${isVisible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h1 
-              className="text-8xl md:text-9xl font-bold text-white mb-8 animate-fade-in-up"
+              className="text-8xl md:text-9xl font-bold text-gray-800 mb-8 animate-fade-in-up"
               data-testid="text-schronix-title"
             >
               Schronix
             </h1>
             <p 
-              className="text-3xl md:text-4xl font-light text-white/90 mb-12 animate-fade-in-up delay-300"
+              className="text-3xl md:text-4xl font-light text-gray-700 mb-12 animate-fade-in-up delay-300"
               data-testid="text-tagline"
             >
               Plan Smarter Skip Smarter
@@ -157,7 +157,7 @@ export default function Home() {
               variant="ghost"
               size="icon"
               onClick={() => scrollToSection(2)}
-              className="text-white/70 hover:text-white"
+              className="text-gray-600 hover:text-gray-800"
               data-testid="button-scroll-to-team"
             >
               <ChevronDown className="h-6 w-6" />
@@ -169,7 +169,7 @@ export default function Home() {
       {/* Section 3: Team */}
       <div 
         ref={el => sectionsRef.current[2] = el}
-        className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden flex items-center justify-center"
+        className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-250 to-gray-300 relative overflow-hidden flex items-center justify-center"
         data-testid="team-section"
       >
         <FlowingLines />
@@ -231,7 +231,7 @@ export default function Home() {
       </div>
 
       {/* Section 4: Upload */}
-      <div className="min-h-screen bg-white relative overflow-hidden flex items-center justify-center" data-testid="upload-section">
+      <div className="min-h-screen bg-gradient-to-br from-gray-300 via-gray-250 to-gray-300 relative overflow-hidden flex items-center justify-center" data-testid="upload-section">
         <FlowingLines />
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
