@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Crown, Code, Database, TrendingUp } from "lucide-react";
-import teamLeaderImage from "@assets/team-leader.webp";
+import teamLeaderImage from "../assets/team-leader.webp";
 
 interface TeamSectionProps {
   isActive: boolean;
