@@ -138,7 +138,7 @@ export default function TeamSection({ isActive }: TeamSectionProps) {
                 <CardContent className="p-8 text-center">
                   <div className="w-24 h-24 rounded-full mx-auto mb-6 overflow-hidden border-4 border-white shadow-lg">
                     <img 
-                      src="/images/team-leader.webp" 
+                      src="/images/team-leader.jpg" 
                       alt="Vansh Sharma - Team Leader" 
                       className="w-full h-full object-cover"
                       data-testid="img-team-leader-avatar"
