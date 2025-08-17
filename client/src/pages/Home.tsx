@@ -124,36 +124,30 @@ export default function Home() {
   const [isVisible, setIsVisible] = useState([true, false, false, false, false]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [typedText, setTypedText] = useState('');
-  const [showCursor, setShowCursor] = useState(true);
+  const [typedTagline, setTypedTagline] = useState('');
+  const [showTaglineCursor, setShowTaglineCursor] = useState(true);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Typing animation effect
+  // Typing animation effect for tagline
   useEffect(() => {
-    const text = "Schronix";
+    const text = "Plan Smarter Skip Smarter";
     let i = 0;
-    const typeSpeed = [150, 120, 180, 100, 140, 160, 110, 130]; // Natural speed variations
+    const typeSpeed = [120, 80, 150, 90, 200, 100, 140, 110, 160, 90, 130, 180, 100, 120, 95, 140, 110, 160, 90, 130, 105, 140, 125, 100]; // Natural speed variations
     
     const typeText = () => {
       if (i < text.length) {
-        setTypedText(text.slice(0, i + 1));
+        setTypedTagline(text.slice(0, i + 1));
         i++;
         setTimeout(typeText, typeSpeed[i - 1] || 120);
-      } else {
-        // After typing is complete, wait a bit then hide loading screen
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 800);
       }
     };
 
-    // Start typing after a small delay
-    const startTimer = setTimeout(typeText, 500);
+    // Start typing after page loads and title animation
+    const startTimer = setTimeout(typeText, 1500);
     
     // Cursor blinking
     const cursorInterval = setInterval(() => {
-      setShowCursor(prev => !prev);
+      setShowTaglineCursor(prev => !prev);
     }, 530);
 
     return () => {
@@ -220,89 +214,7 @@ export default function Home() {
 
 
 
-  // Loading screen component
-  if (isLoading) {
-    return (
-      <div className="fixed inset-0 bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 flex items-center justify-center z-50">
-        <div className="text-center">
-          <div className="relative">
-            {/* Typing Animation for Schronix */}
-            <div className="text-8xl md:text-9xl font-bold text-gray-800 font-mono tracking-wider select-none">
-              <span className="typed-text">
-                {typedText.split('').map((char, index) => (
-                  <span 
-                    key={index} 
-                    className="letter"
-                    style={{ 
-                      animationDelay: `${index * 0.1}s`,
-                      opacity: 1
-                    }}
-                  >
-                    {char}
-                  </span>
-                ))}
-              </span>
-              <span className={`cursor ${showCursor ? 'visible' : 'invisible'}`}>|</span>
-            </div>
-          </div>
-        </div>
-        
-        <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap');
-          
-          .font-mono {
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
-          }
-          
-          .typed-text {
-            display: inline-block;
-          }
-          
-          .letter {
-            display: inline-block;
-            animation: fadeInLetter 0.3s ease-out forwards;
-            opacity: 0;
-          }
-          
-          .cursor {
-            color: #374151;
-            font-weight: normal;
-            animation: none;
-            transition: opacity 0.1s ease;
-          }
-          
-          .cursor.visible {
-            opacity: 1;
-          }
-          
-          .cursor.invisible {
-            opacity: 0;
-          }
-          
-          @keyframes fadeInLetter {
-            0% { 
-              opacity: 0; 
-              transform: translateY(10px) scale(0.8);
-              filter: blur(2px);
-            }
-            70% {
-              transform: translateY(-2px) scale(1.05);
-            }
-            100% { 
-              opacity: 1; 
-              transform: translateY(0) scale(1);
-              filter: blur(0);
-            }
-          }
-          
-          /* Subtle glow effect for tech feel */
-          .typed-text {
-            text-shadow: 0 0 20px rgba(55, 65, 81, 0.3);
-          }
-        `}</style>
-      </div>
-    );
-  }
+
 
   return (
     <div className="relative" data-testid="home-page">
@@ -322,31 +234,36 @@ export default function Home() {
               <div className="ml-10 flex items-baseline space-x-8">
                 <button 
                   onClick={() => scrollToSection(0)} 
-                  className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                  className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 animate-slide-in"
+                  style={{ animationDelay: '0.1s' }}
                 >
                   Home
                 </button>
                 <button 
                   onClick={() => scrollToSection(1)} 
-                  className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                  className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 animate-slide-in"
+                  style={{ animationDelay: '0.2s' }}
                 >
                   About
                 </button>
                 <button 
                   onClick={() => scrollToSection(2)} 
-                  className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                  className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 animate-slide-in"
+                  style={{ animationDelay: '0.3s' }}
                 >
                   How it Works
                 </button>
                 <button 
                   onClick={() => scrollToSection(3)} 
-                  className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                  className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 animate-slide-in"
+                  style={{ animationDelay: '0.4s' }}
                 >
                   Team
                 </button>
                 <button 
                   onClick={() => scrollToSection(4)} 
-                  className="bg-gray-800 text-white hover:bg-gray-700 px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg"
+                  className="bg-gray-800 text-white hover:bg-gray-700 px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md hover:shadow-lg animate-slide-in"
+                  style={{ animationDelay: '0.5s' }}
                 >
                   Get Started
                 </button>
@@ -441,12 +358,15 @@ export default function Home() {
             >
               Schronix
             </h1>
-            <p 
-              className="text-3xl md:text-4xl font-light text-gray-700 mb-12 drop-shadow-sm animate-fade-in-delay"
+            <div 
+              className="text-3xl md:text-4xl font-light text-gray-700 mb-12 drop-shadow-sm font-mono"
               data-testid="text-tagline"
             >
-              Plan Smarter Skip Smarter
-            </p>
+              <span className="typed-tagline">
+                {typedTagline}
+              </span>
+              <span className={`tagline-cursor ${showTaglineCursor ? 'visible' : 'invisible'}`}>|</span>
+            </div>
           </div>
           
 
