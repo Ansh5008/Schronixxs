@@ -307,7 +307,7 @@ export default function Home() {
   return (
     <div className="relative" data-testid="home-page">
       {/* Modern Navigation Bar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100 animate-slide-down">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
@@ -436,13 +436,13 @@ export default function Home() {
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <div className={`transition-all duration-1000 ${isVisible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h1 
-              className="text-8xl md:text-9xl font-bold text-gray-800 mb-8 drop-shadow-sm"
+              className="text-8xl md:text-9xl font-bold text-gray-800 mb-8 drop-shadow-sm animate-fade-in-scale"
               data-testid="text-schronix-title"
             >
               Schronix
             </h1>
             <p 
-              className="text-3xl md:text-4xl font-light text-gray-700 mb-12 drop-shadow-sm"
+              className="text-3xl md:text-4xl font-light text-gray-700 mb-12 drop-shadow-sm animate-fade-in-delay"
               data-testid="text-tagline"
             >
               Plan Smarter Skip Smarter
