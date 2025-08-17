@@ -201,35 +201,26 @@ export default function Home() {
         <div className="text-center">
           <div className="relative">
             {/* Animated Schronix logo */}
-            <h1 className="text-8xl md:text-9xl font-bold text-gray-800 mb-8 animate-pulse">
+            <h1 className="text-8xl md:text-9xl font-bold text-gray-800 animate-fade-in-up">
               Schronix
             </h1>
-            
-            {/* Loading dots */}
-            <div className="flex justify-center space-x-2 mb-8">
-              <div className="w-3 h-3 bg-gray-800 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-              <div className="w-3 h-3 bg-gray-800 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-              <div className="w-3 h-3 bg-gray-800 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-            </div>
-            
-            {/* Loading progress bar */}
-            <div className="w-64 h-2 bg-gray-200 rounded-full mx-auto overflow-hidden">
-              <div className="h-full bg-gray-800 rounded-full animate-loading-bar"></div>
-            </div>
-            
-            <p className="text-gray-700 mt-4 text-lg">Loading your experience...</p>
           </div>
         </div>
         
         <style>{`
-          @keyframes loading-bar {
-            0% { width: 0%; transform: translateX(-100%); }
-            50% { width: 100%; transform: translateX(0%); }
-            100% { width: 100%; transform: translateX(100%); }
+          @keyframes fade-in-up {
+            0% { 
+              opacity: 0; 
+              transform: translateY(30px) scale(0.9);
+            }
+            100% { 
+              opacity: 1; 
+              transform: translateY(0) scale(1);
+            }
           }
           
-          .animate-loading-bar {
-            animation: loading-bar 2s ease-in-out;
+          .animate-fade-in-up {
+            animation: fade-in-up 1.5s ease-out;
           }
         `}</style>
       </div>
