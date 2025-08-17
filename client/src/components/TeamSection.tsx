@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Crown, Code, Database, TrendingUp } from "lucide-react";
-import teamLeaderImage from "../assets/team-leader.webp";
 
 interface TeamSectionProps {
   isActive: boolean;
@@ -139,7 +138,7 @@ export default function TeamSection({ isActive }: TeamSectionProps) {
                 <CardContent className="p-8 text-center">
                   <div className="w-24 h-24 rounded-full mx-auto mb-6 overflow-hidden border-4 border-white shadow-lg">
                     <img 
-                      src={teamLeaderImage} 
+                      src="/images/team-leader.webp" 
                       alt="Vansh Sharma - Team Leader" 
                       className="w-full h-full object-cover"
                       data-testid="img-team-leader-avatar"
