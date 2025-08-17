@@ -117,132 +117,24 @@ function FlowingLines({ sectionIndex = 0 }) {
   );
 }
 
-// Navigation Bar Component
-function NavigationBar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const scrollToSection = (index: number) => {
-    const sections = document.querySelectorAll('[data-section]');
-    sections[index]?.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    });
-    setIsMenuOpen(false);
-  };
-
-  return (
-    <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-gray-800">Schronix</h1>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <button
-              onClick={() => scrollToSection(0)}
-              className="text-gray-700 hover:text-gray-900 transition-colors"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => scrollToSection(1)}
-              className="text-gray-700 hover:text-gray-900 transition-colors"
-            >
-              About
-            </button>
-            <button
-              onClick={() => scrollToSection(2)}
-              className="text-gray-700 hover:text-gray-900 transition-colors"
-            >
-              How it Works
-            </button>
-            <button
-              onClick={() => scrollToSection(3)}
-              className="text-gray-700 hover:text-gray-900 transition-colors"
-            >
-              Team
-            </button>
-            <button
-              onClick={() => scrollToSection(4)}
-              className="text-gray-700 hover:text-gray-900 transition-colors"
-            >
-              Upload
-            </button>
-            <Link href="/dashboard">
-              <Button className="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg transition-all duration-300">
-                Dashboard
-              </Button>
-            </Link>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4">
-            <div className="flex flex-col space-y-4">
-              <button
-                onClick={() => scrollToSection(0)}
-                className="text-gray-700 hover:text-gray-900 transition-colors text-left"
-              >
-                Home
-              </button>
-              <button
-                onClick={() => scrollToSection(1)}
-                className="text-gray-700 hover:text-gray-900 transition-colors text-left"
-              >
-                About
-              </button>
-              <button
-                onClick={() => scrollToSection(2)}
-                className="text-gray-700 hover:text-gray-900 transition-colors text-left"
-              >
-                How it Works
-              </button>
-              <button
-                onClick={() => scrollToSection(3)}
-                className="text-gray-700 hover:text-gray-900 transition-colors text-left"
-              >
-                Team
-              </button>
-              <button
-                onClick={() => scrollToSection(4)}
-                className="text-gray-700 hover:text-gray-900 transition-colors text-left"
-              >
-                Upload
-              </button>
-              <Link href="/dashboard">
-                <Button className="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg transition-all duration-300 w-full">
-                  Dashboard
-                </Button>
-              </Link>
-            </div>
-          </div>
-        )}
-      </div>
-    </nav>
-  );
-}
 
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
   const [isVisible, setIsVisible] = useState([true, false, false, false, false]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Loading animation effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -302,6 +194,48 @@ export default function Home() {
 
 
 
+  // Loading screen component
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 flex items-center justify-center z-50">
+        <div className="text-center">
+          <div className="relative">
+            {/* Animated Schronix logo */}
+            <h1 className="text-8xl md:text-9xl font-bold text-gray-800 mb-8 animate-pulse">
+              Schronix
+            </h1>
+            
+            {/* Loading dots */}
+            <div className="flex justify-center space-x-2 mb-8">
+              <div className="w-3 h-3 bg-gray-800 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+              <div className="w-3 h-3 bg-gray-800 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+              <div className="w-3 h-3 bg-gray-800 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+            </div>
+            
+            {/* Loading progress bar */}
+            <div className="w-64 h-2 bg-gray-200 rounded-full mx-auto overflow-hidden">
+              <div className="h-full bg-gray-800 rounded-full animate-loading-bar"></div>
+            </div>
+            
+            <p className="text-gray-700 mt-4 text-lg">Loading your experience...</p>
+          </div>
+        </div>
+        
+        <style>{`
+          @keyframes loading-bar {
+            0% { width: 0%; transform: translateX(-100%); }
+            50% { width: 100%; transform: translateX(0%); }
+            100% { width: 100%; transform: translateX(100%); }
+          }
+          
+          .animate-loading-bar {
+            animation: loading-bar 2s ease-in-out;
+          }
+        `}</style>
+      </div>
+    );
+  }
+
   return (
     <div className="relative" data-testid="home-page">
       {/* Modern Navigation Bar */}
@@ -318,6 +252,12 @@ export default function Home() {
             {/* Desktop Navigation */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-8">
+                <button 
+                  onClick={() => scrollToSection(0)} 
+                  className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
+                >
+                  Home
+                </button>
                 <button 
                   onClick={() => scrollToSection(1)} 
                   className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ease-in-out transform hover:scale-105"
@@ -365,9 +305,18 @@ export default function Home() {
         
         {/* Mobile Navigation Menu */}
         <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
-          isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+          isMobileMenuOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
         }`}>
           <div className="px-2 pt-2 pb-3 space-y-1 bg-white/98 backdrop-blur-md shadow-lg border-t border-gray-100">
+            <button
+              onClick={() => {
+                scrollToSection(0);
+                setIsMobileMenuOpen(false);
+              }}
+              className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-3 rounded-lg text-base font-medium w-full text-left transition-all duration-300"
+            >
+              Home
+            </button>
             <button
               onClick={() => {
                 scrollToSection(1);
