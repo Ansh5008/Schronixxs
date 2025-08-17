@@ -117,6 +117,126 @@ function FlowingLines({ sectionIndex = 0 }) {
   );
 }
 
+// Navigation Bar Component
+function NavigationBar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const scrollToSection = (index: number) => {
+    const sections = document.querySelectorAll('[data-section]');
+    sections[index]?.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    });
+    setIsMenuOpen(false);
+  };
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <div className="flex items-center">
+            <h1 className="text-2xl font-bold text-gray-800">Schronix</h1>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <button
+              onClick={() => scrollToSection(0)}
+              className="text-gray-700 hover:text-gray-900 transition-colors"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => scrollToSection(1)}
+              className="text-gray-700 hover:text-gray-900 transition-colors"
+            >
+              About
+            </button>
+            <button
+              onClick={() => scrollToSection(2)}
+              className="text-gray-700 hover:text-gray-900 transition-colors"
+            >
+              How it Works
+            </button>
+            <button
+              onClick={() => scrollToSection(3)}
+              className="text-gray-700 hover:text-gray-900 transition-colors"
+            >
+              Team
+            </button>
+            <button
+              onClick={() => scrollToSection(4)}
+              className="text-gray-700 hover:text-gray-900 transition-colors"
+            >
+              Upload
+            </button>
+            <Link href="/dashboard">
+              <Button className="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg transition-all duration-300">
+                Dashboard
+              </Button>
+            </Link>
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-gray-200 py-4">
+            <div className="flex flex-col space-y-4">
+              <button
+                onClick={() => scrollToSection(0)}
+                className="text-gray-700 hover:text-gray-900 transition-colors text-left"
+              >
+                Home
+              </button>
+              <button
+                onClick={() => scrollToSection(1)}
+                className="text-gray-700 hover:text-gray-900 transition-colors text-left"
+              >
+                About
+              </button>
+              <button
+                onClick={() => scrollToSection(2)}
+                className="text-gray-700 hover:text-gray-900 transition-colors text-left"
+              >
+                How it Works
+              </button>
+              <button
+                onClick={() => scrollToSection(3)}
+                className="text-gray-700 hover:text-gray-900 transition-colors text-left"
+              >
+                Team
+              </button>
+              <button
+                onClick={() => scrollToSection(4)}
+                className="text-gray-700 hover:text-gray-900 transition-colors text-left"
+              >
+                Upload
+              </button>
+              <Link href="/dashboard">
+                <Button className="bg-gray-800 hover:bg-gray-900 text-white px-4 py-2 rounded-lg transition-all duration-300 w-full">
+                  Dashboard
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+}
+
 export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
   const [isVisible, setIsVisible] = useState([true, false, false, false, false]);
@@ -521,14 +641,6 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Continue to Upload button */}
-            <Button
-              onClick={() => scrollToSection(4)}
-              className="bg-gray-800 hover:bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-              data-testid="button-continue-to-upload"
-            >
-              Continue to Upload
-            </Button>
           </div>
         </div>
       </div>
