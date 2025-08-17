@@ -125,15 +125,41 @@ export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [typedText, setTypedText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
   const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Loading animation effect
+  // Typing animation effect
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    const text = "Schronix";
+    let i = 0;
+    const typeSpeed = [150, 120, 180, 100, 140, 160, 110, 130]; // Natural speed variations
+    
+    const typeText = () => {
+      if (i < text.length) {
+        setTypedText(text.slice(0, i + 1));
+        i++;
+        setTimeout(typeText, typeSpeed[i - 1] || 120);
+      } else {
+        // After typing is complete, wait a bit then hide loading screen
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 800);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    // Start typing after a small delay
+    const startTimer = setTimeout(typeText, 500);
+    
+    // Cursor blinking
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 530);
+
+    return () => {
+      clearTimeout(startTimer);
+      clearInterval(cursorInterval);
+    };
   }, []);
 
   useEffect(() => {
@@ -200,27 +226,78 @@ export default function Home() {
       <div className="fixed inset-0 bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 flex items-center justify-center z-50">
         <div className="text-center">
           <div className="relative">
-            {/* Animated Schronix logo */}
-            <h1 className="text-8xl md:text-9xl font-bold text-gray-800 animate-fade-in-up">
-              Schronix
-            </h1>
+            {/* Typing Animation for Schronix */}
+            <div className="text-8xl md:text-9xl font-bold text-gray-800 font-mono tracking-wider select-none">
+              <span className="typed-text">
+                {typedText.split('').map((char, index) => (
+                  <span 
+                    key={index} 
+                    className="letter"
+                    style={{ 
+                      animationDelay: `${index * 0.1}s`,
+                      opacity: 1
+                    }}
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+              <span className={`cursor ${showCursor ? 'visible' : 'invisible'}`}>|</span>
+            </div>
           </div>
         </div>
         
         <style>{`
-          @keyframes fade-in-up {
+          @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap');
+          
+          .font-mono {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+          }
+          
+          .typed-text {
+            display: inline-block;
+          }
+          
+          .letter {
+            display: inline-block;
+            animation: fadeInLetter 0.3s ease-out forwards;
+            opacity: 0;
+          }
+          
+          .cursor {
+            color: #374151;
+            font-weight: normal;
+            animation: none;
+            transition: opacity 0.1s ease;
+          }
+          
+          .cursor.visible {
+            opacity: 1;
+          }
+          
+          .cursor.invisible {
+            opacity: 0;
+          }
+          
+          @keyframes fadeInLetter {
             0% { 
               opacity: 0; 
-              transform: translateY(30px) scale(0.9);
+              transform: translateY(10px) scale(0.8);
+              filter: blur(2px);
+            }
+            70% {
+              transform: translateY(-2px) scale(1.05);
             }
             100% { 
               opacity: 1; 
               transform: translateY(0) scale(1);
+              filter: blur(0);
             }
           }
           
-          .animate-fade-in-up {
-            animation: fade-in-up 1.5s ease-out;
+          /* Subtle glow effect for tech feel */
+          .typed-text {
+            text-shadow: 0 0 20px rgba(55, 65, 81, 0.3);
           }
         `}</style>
       </div>
